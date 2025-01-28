@@ -4,7 +4,7 @@ import model.strategies.IStrategyCosto;
 import model.strategies.IStrategyDisponible;
 
 public class Auto extends Vehiculo{
-    public Auto(Long id, boolean disponible, IStrategyCosto estrategiaCosto, IStrategyDisponible estrategiaDisponible) {
-        super(id, disponible, estrategiaCosto, estrategiaDisponible);
+    public Auto(boolean disponible, String marca, String modelo, double tarifaBase,  IStrategyCosto estrategiaCosto, IStrategyDisponible estrategiaDisponible) {
+        super(disponible, marca, modelo, tarifaBase, estrategiaCosto, estrategiaDisponible);
     }
 }

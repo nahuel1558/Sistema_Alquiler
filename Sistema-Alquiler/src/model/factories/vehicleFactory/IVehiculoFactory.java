@@ -1,4 +1,8 @@
 package model.factories.vehicleFactory;
 
-public interface IVehiculoFactory {
+import model.factories.IAlquilableFactory;
+import model.specificClasses.vehicleClasses.Vehiculo;
+
+public interface IVehiculoFactory extends IAlquilableFactory {
+    Vehiculo crearVehiculo(String marca, String modelo, double tarifaBase, boolean disponible);
 }

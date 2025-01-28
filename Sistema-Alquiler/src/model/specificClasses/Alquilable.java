@@ -1,25 +1,27 @@
 package model.specificClasses;
 
 public abstract class Alquilable {
-    private String idAlquilable; // Identificador único
+    private Long idAlquilable;
     private boolean disponible;
 
-    public Alquilable(String idAlquilable, boolean disponible) {
+    public Alquilable(boolean disponible) {
+        this.disponible = disponible;
+    }
+
+    public Alquilable(Long idAlquilable, boolean disponible) {
         this.idAlquilable = idAlquilable;
         this.disponible = disponible;
     }
 
-    public String getIdAlquilable() {
+    public Long getIdAlquilable() {
         return idAlquilable;
     }
 
-    public boolean isDisponible() {
+    public boolean getDisponible() {
         return disponible;
     }
 
     public void setDisponible(boolean disponible) {
         this.disponible = disponible;
     }
-
-    public abstract double calcularCosto(int dias);
 }
