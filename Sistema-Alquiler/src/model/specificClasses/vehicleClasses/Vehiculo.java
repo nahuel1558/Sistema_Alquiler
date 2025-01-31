@@ -6,29 +6,37 @@ import model.strategies.IStrategyDisponible;
 
 import java.util.Date;
 
-public abstract class Vehiculo extends Alquilable {
+public class Vehiculo extends Alquilable {
+    private TipoVehiculo tipo;
     private String marca;
     private String modelo;
-    private double tarifaBase;
     private IStrategyCosto estrategiaCosto;
     private IStrategyDisponible estrategiaDisponible;
 
-    public Vehiculo(boolean disponible, String marca, String modelo, double tarifaBase, IStrategyCosto estrategiaCosto, IStrategyDisponible estrategiaDisponible) {
-        super(disponible);
+    public Vehiculo(boolean disponible, double tarifaBase, String descripcion, TipoVehiculo tipo, String marca, String modelo, IStrategyCosto estrategiaCosto, IStrategyDisponible estrategiaDisponible) {
+        super(disponible, tarifaBase, descripcion);
+        this.tipo = tipo;
         this.marca = marca;
         this.modelo = modelo;
-        this.tarifaBase = tarifaBase;
         this.estrategiaCosto = estrategiaCosto;
         this.estrategiaDisponible = estrategiaDisponible;
     }
 
-    public Vehiculo(Long idAlquilable, boolean disponible, String marca, String modelo, double tarifaBase, IStrategyCosto estrategiaCosto, IStrategyDisponible estrategiaDisponible) {
-        super(idAlquilable, disponible);
+    public Vehiculo(Long idAlquilable, boolean disponible, double tarifaBase, String descripcion, TipoVehiculo tipo, String marca, String modelo, IStrategyCosto estrategiaCosto, IStrategyDisponible estrategiaDisponible) {
+        super(idAlquilable, disponible, tarifaBase, descripcion);
+        this.tipo = tipo;
         this.marca = marca;
         this.modelo = modelo;
-        this.tarifaBase = tarifaBase;
         this.estrategiaCosto = estrategiaCosto;
         this.estrategiaDisponible = estrategiaDisponible;
+    }
+
+    public TipoVehiculo getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoVehiculo tipo) {
+        this.tipo = tipo;
     }
 
     public String getMarca() {
@@ -47,16 +55,9 @@ public abstract class Vehiculo extends Alquilable {
         this.modelo = modelo;
     }
 
-    public double getTarifaBase() {
-        return tarifaBase;
-    }
 
-    public void setTarifaBase(double tarifaBase) {
-        this.tarifaBase = tarifaBase;
-    }
-
-    public boolean verificarDisponibilidad(Date fechaIncio, Date fechaFin) {
-        return estrategiaDisponible.verificarDisponible(this, fechaIncio, fechaFin);
+    public boolean verificarDisponible(Alquilable vehiculo, Date fechaIncio, Date fechaFin) {
+        return estrategiaDisponible.verificarDisponible(vehiculo, fechaIncio, fechaFin);
     }
 
     public double calcularCosto(Integer tiempoReservado, double tarifaBase){

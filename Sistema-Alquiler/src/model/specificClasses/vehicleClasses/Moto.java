@@ -5,9 +5,11 @@ import model.strategies.IStrategyDisponible;
 
 public class Moto extends Vehiculo{
 
-    public Moto(boolean disponible, String marca, String modelo, double tarifaBase, IStrategyCosto estrategiaCosto, IStrategyDisponible estrategiaDisponible) {
-        super(disponible, marca, modelo, tarifaBase, estrategiaCosto, estrategiaDisponible);
+    public Moto(boolean disponible, String tipo, double tarifaBase, String descripcion, String marca, String modelo, IStrategyCosto estrategiaCosto, IStrategyDisponible estrategiaDisponible) {
+        super(disponible, tipo, tarifaBase, descripcion, marca, modelo, estrategiaCosto, estrategiaDisponible);
     }
 
-
+    public Moto(Long idAlquilable, boolean disponible, String tipo, double tarifaBase, String descripcion, String marca, String modelo, IStrategyCosto estrategiaCosto, IStrategyDisponible estrategiaDisponible) {
+        super(idAlquilable, disponible, tipo, tarifaBase, descripcion, marca, modelo, estrategiaCosto, estrategiaDisponible);
+    }
 }
