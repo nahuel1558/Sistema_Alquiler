@@ -1,4 +1,4 @@
-package dao;
+package dao.vehiculos;
 
 import config.DataBaseConnection;
 import model.specificClasses.vehicleClasses.Vehiculo;
@@ -27,12 +27,12 @@ public class VehiculoDAO {
             statement.setString(1, vehiculo.getMarca());
             statement.setString(2, vehiculo.getModelo());
             statement.setDouble(3, vehiculo.getTarifaBase());
-            statement.setBoolean(4, vehiculo.getDisponible());
+            statement.setBoolean(4, vehiculo.isDisponible());
 
             return statement.executeUpdate() > 0;
         }
     }
-
+/*
     public Vehiculo obtenerVehiculoByID(Integer idVehiculo) throws SQLException{
         try (Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID_SQL)){
@@ -43,5 +43,5 @@ public class VehiculoDAO {
                 return new Vehiculo(resultSet.getLong("id"), resultSet.getBoolean("disponible"), resultSet.getString("marca"), resultSet.getString("modelo"), resultSet.getDouble("tarifaBase"));
             }
         }
-    }
+    }*/
 }

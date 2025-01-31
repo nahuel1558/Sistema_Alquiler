@@ -1,8 +1,8 @@
-package controller;
+package controller.vehiculos;
 
 import model.factories.vehicleFactory.MotoFactory;
 import model.specificClasses.vehicleClasses.Vehiculo;
-import service.VehiculoService;
+import service.vehiculos.VehiculoService;
 
 public class VehiculoController {
 

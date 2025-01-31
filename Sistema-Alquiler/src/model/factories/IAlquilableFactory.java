@@ -2,6 +2,6 @@ package model.factories;
 
 import model.specificClasses.Alquilable;
 
-public abstract interface IAlquilableFactory {
+public interface IAlquilableFactory {
     Alquilable crearAlquilable(boolean disponible);
 }

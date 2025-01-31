@@ -55,23 +55,11 @@ public abstract class Vehiculo extends Alquilable {
         this.tarifaBase = tarifaBase;
     }
 
-    public IStrategyCosto getEstrategiaCosto() {
-        return estrategiaCosto;
+    public boolean verificarDisponibilidad(Date fechaIncio, Date fechaFin) {
+        return estrategiaDisponible.verificarDisponible(this, fechaIncio, fechaFin);
     }
 
-    public void setEstrategiaCosto(IStrategyCosto estrategiaCosto) {
-        this.estrategiaCosto = estrategiaCosto;
-    }
-
-    public IStrategyDisponible getEstrategiaDisponible() {
-        return estrategiaDisponible;
-    }
-
-    public void setEstrategiaDisponible(IStrategyDisponible estrategiaDisponible) {
-        this.estrategiaDisponible = estrategiaDisponible;
-    }
-
-    public boolean verificarDisponibilidad(Alquilable alquilable, Date fechaIncio, Date fechaFin) {
-        return estrategiaDisponible.verificarDisponible(alquilable, fechaIncio, fechaFin);
+    public double calcularCosto(Integer tiempoReservado, double tarifaBase){
+        return estrategiaCosto.calcularCosto(tiempoReservado, tarifaBase);
     }
 }

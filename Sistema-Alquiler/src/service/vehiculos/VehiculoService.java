@@ -1,6 +1,6 @@
-package service;
+package service.vehiculos;
 
-import dao.VehiculoDAO;
+import dao.vehiculos.VehiculoDAO;
 import model.specificClasses.vehicleClasses.Vehiculo;
 
 import java.sql.SQLException;

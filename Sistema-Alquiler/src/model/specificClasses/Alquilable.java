@@ -17,7 +17,7 @@ public abstract class Alquilable {
         return idAlquilable;
     }
 
-    public boolean getDisponible() {
+    public boolean isDisponible() {
         return disponible;
     }
 
