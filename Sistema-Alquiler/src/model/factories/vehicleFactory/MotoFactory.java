@@ -2,13 +2,11 @@ package model.factories.vehicleFactory;
 
 import model.specificClasses.vehicleClasses.Moto;
 import model.specificClasses.vehicleClasses.Vehiculo;
-import model.strategies.DisponibleBasicoStrategy;
-import model.strategies.vehiclesStrategy.MotoStrategy;
 
-public class MotoFactory implements IVehiculoFactory{
+public class MotoFactory extends VehiculoFactory {
 
     @Override
-    public Vehiculo crearVehiculo(boolean disponible, String tipo,double tarifaBase, String descripcion,  String marca, String modelo) {
-        return new Moto(disponible, tipo, tarifaBase, descripcion, marca, modelo, new MotoStrategy(), new DisponibleBasicoStrategy());
+    public Vehiculo crearAlquilable(Enum categoria, Enum tipo, Object... parametros) {
+        return new Moto();
     }
 }

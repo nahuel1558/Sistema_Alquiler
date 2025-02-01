@@ -5,11 +5,9 @@ import model.specificClasses.vehicleClasses.Vehiculo;
 import model.strategies.DisponibleBasicoStrategy;
 import model.strategies.vehiclesStrategy.AutoStrategy;
 
-public class AutoFactory implements IVehiculoFactory{
-
-
+public class AutoFactory extends VehiculoFactory {
     @Override
-    public Vehiculo crearVehiculo(boolean disponible, String tipo, double tarifaBase, String descripcion, String marca, String modelo) {
-        return new Auto(disponible, tipo, tarifaBase, descripcion, marca, modelo, new AutoStrategy(), new DisponibleBasicoStrategy());
+    public Vehiculo crearAlquilable(Enum categoria, Enum tipo, Object... params) {
+        return new Auto();
     }
 }

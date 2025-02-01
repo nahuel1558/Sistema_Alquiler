@@ -1,15 +1,20 @@
 package model.specificClasses.vehicleClasses;
 
+import model.specificClasses.TipoCategoria;
 import model.strategies.IStrategyCosto;
 import model.strategies.IStrategyDisponible;
 
 public class Moto extends Vehiculo{
 
-    public Moto(boolean disponible, String tipo, double tarifaBase, String descripcion, String marca, String modelo, IStrategyCosto estrategiaCosto, IStrategyDisponible estrategiaDisponible) {
-        super(disponible, tipo, tarifaBase, descripcion, marca, modelo, estrategiaCosto, estrategiaDisponible);
+    public Moto(TipoCategoria categoria, boolean disponible, double tarifaBase, String descripcion, TipoVehiculo tipo, String marca, String modelo, IStrategyCosto estrategiaCosto, IStrategyDisponible estrategiaDisponible) {
+        super(categoria, disponible, tarifaBase, descripcion,tipo, marca, modelo, estrategiaCosto, estrategiaDisponible);
     }
 
-    public Moto(Long idAlquilable, boolean disponible, String tipo, double tarifaBase, String descripcion, String marca, String modelo, IStrategyCosto estrategiaCosto, IStrategyDisponible estrategiaDisponible) {
-        super(idAlquilable, disponible, tipo, tarifaBase, descripcion, marca, modelo, estrategiaCosto, estrategiaDisponible);
+    public Moto(Long idAlquilable, TipoCategoria categoria, boolean disponible, double tarifaBase, String descripcion, TipoVehiculo tipo, String marca, String modelo, IStrategyCosto estrategiaCosto, IStrategyDisponible estrategiaDisponible) {
+        super(idAlquilable, categoria, disponible, tarifaBase, descripcion, tipo, marca, modelo, estrategiaCosto, estrategiaDisponible);
+    }
+
+    public Moto() {
+        super();
     }
 }
