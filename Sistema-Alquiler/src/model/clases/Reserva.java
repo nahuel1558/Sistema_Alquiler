@@ -1,24 +1,24 @@
-package model.specificClasses;
+package model.clases;
 
 import java.util.Date;
 
-public class Reserva {
+public class Reserva<T extends Alquilable> {
     private Long idReserva;
-    private Alquilable alquilable;
+    private T alquilable;
     private Usuario usuario;
     private Date fechaInicio;
     private Date fechaFin;
     private Integer diaReservado;
 
-    public Reserva(Date fechaFin, Date fechaInicio, Usuario usuario, Alquilable alquilable, Integer diaReservado) {
-        this.fechaFin = fechaFin;
-        this.fechaInicio = fechaInicio;
-        this.usuario = usuario;
+    public Reserva(T alquilable, Usuario usuario, Date fechaInicio, Date fechaFin, Integer diaReservado) {
         this.alquilable = alquilable;
+        this.usuario = usuario;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
         this.diaReservado = diaReservado;
     }
 
-    public Reserva(Long idReserva, Alquilable alquilable, Usuario usuario, Date fechaInicio, Date fechaFin, Integer diaReservado) {
+    public Reserva(Long idReserva, T alquilable, Usuario usuario, Date fechaInicio, Date fechaFin, Integer diaReservado) {
         this.idReserva = idReserva;
         this.alquilable = alquilable;
         this.usuario = usuario;
@@ -35,11 +35,11 @@ public class Reserva {
         this.idReserva = idReserva;
     }
 
-    public Alquilable getAlquilable() {
+    public T getAlquilable() {
         return alquilable;
     }
 
-    public void setAlquilable(Alquilable alquilable) {
+    public void setAlquilable(T alquilable) {
         this.alquilable = alquilable;
     }
 

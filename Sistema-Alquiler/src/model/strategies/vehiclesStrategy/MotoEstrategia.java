@@ -1,11 +1,11 @@
 package model.strategies.vehiclesStrategy;
 
-import model.strategies.IStrategyCosto;
+import model.strategies.IEstrategiaCosto;
 
-public class MotoStrategy implements IStrategyCosto {
+public class MotoEstrategia implements IEstrategiaCosto {
     @Override
     public double calcularCosto(Integer tiempoReservado, double tarifaBase){
-             double costoMoto = (double)tiempoReservado * tarifaBase;
+             double costoMoto = tiempoReservado * tarifaBase;
              return costoMoto;
          }
 }

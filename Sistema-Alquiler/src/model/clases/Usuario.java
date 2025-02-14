@@ -1,4 +1,4 @@
-package model.specificClasses;
+package model.clases;
 
 public class Usuario {
     private Long idUsuario;

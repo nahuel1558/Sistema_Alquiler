@@ -1,5 +1,5 @@
 package model.strategies;
 
-public interface IStrategyCosto {
+public interface IEstrategiaCosto {
     double calcularCosto(Integer tiempoReservado, double tarifaBase);
 }

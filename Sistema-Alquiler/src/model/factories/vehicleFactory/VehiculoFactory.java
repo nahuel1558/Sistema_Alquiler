@@ -1,14 +1,12 @@
 package model.factories.vehicleFactory;
 
+import model.clases.Vehiculo;
 import model.factories.AlquilableFactory;
-import model.specificClasses.vehicleClasses.Vehiculo;
+import model.factories.IAlquilable;
 
 public class VehiculoFactory extends AlquilableFactory {
-
     @Override
-    public Vehiculo crearAlquilable(Enum categoria, Enum tipo, Object... params) {
+    public IAlquilable crearAlquilable() {
         return new Vehiculo();
     }
 }
-
-
