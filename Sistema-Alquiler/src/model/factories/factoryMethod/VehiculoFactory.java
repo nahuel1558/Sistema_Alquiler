@@ -5,7 +5,7 @@ import model.clases.Vehiculo;
 
 public class VehiculoFactory extends AlquilableFactory {
     @Override
-    public IAlquilable crearAlquilable() {
-        return new Vehiculo();
+    public IGestionAlquiler crearAlquilable() {
+        return new AlquilerVehiculo();
     }
 }
