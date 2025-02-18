@@ -1,11 +1,12 @@
 package model.clases;
 
-import model.factories.IAlquilable;
-
 public abstract class Alquilable implements IAlquilable {
     private Long idAlquilable;
     private CategoriaAlquilable categoria;
     private boolean disponible;
+
+    public Alquilable() {
+    }
 
     public Alquilable(CategoriaAlquilable categoria, boolean disponible) {
         this.categoria = categoria;
@@ -34,11 +35,10 @@ public abstract class Alquilable implements IAlquilable {
         this.categoria = categoria;
     }
 
-    @Override
     public boolean isDisponible() {
         return disponible;
     }
-    @Override
+
     public void setDisponible(boolean disponible) {
         this.disponible = disponible;
     }

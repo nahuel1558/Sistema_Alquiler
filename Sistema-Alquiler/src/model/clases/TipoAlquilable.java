@@ -9,6 +9,9 @@ public class TipoAlquilable {
     private double tarifaBase;
     private IEstrategiaCosto estrategiaCosto;
 
+    public TipoAlquilable() {
+    }
+
     public TipoAlquilable(String nombreTipo, double tarifaBase, IEstrategiaCosto estrategiaCosto) {
         this.nombreTipo = nombreTipo;
         this.tarifaBase = tarifaBase;
@@ -52,5 +55,9 @@ public class TipoAlquilable {
 
     public void setEstrategiaCosto(IEstrategiaCosto estrategiaCosto) {
         this.estrategiaCosto = estrategiaCosto;
+    }
+
+    public double calcularCosto(Integer diaReservado){
+        return estrategiaCosto.calcularCosto(diaReservado, tarifaBase);
     }
 }

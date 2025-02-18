@@ -1,8 +1,7 @@
-package model.factories.vehicleFactory;
+package model.factories.factoryMethod;
 
+import model.clases.IAlquilable;
 import model.clases.Vehiculo;
-import model.factories.AlquilableFactory;
-import model.factories.IAlquilable;
 
 public class VehiculoFactory extends AlquilableFactory {
     @Override

@@ -1,9 +1,14 @@
 package model.clases;
 
-public class Vehiculo extends Alquilable{
+
+public class Vehiculo extends Alquilable {
     private TipoAlquilable tipoVehiculo;
     private String marca;
     private String modelo;
+
+
+    public Vehiculo() {
+    }
 
     public Vehiculo(CategoriaAlquilable categoria, boolean disponible, TipoAlquilable tipoVehiculo, String marca, String modelo) {
         super(categoria, disponible);
@@ -18,6 +23,7 @@ public class Vehiculo extends Alquilable{
         this.marca = marca;
         this.modelo = modelo;
     }
+
 
     public TipoAlquilable getTipoVehiculo() {
         return tipoVehiculo;
@@ -45,6 +51,31 @@ public class Vehiculo extends Alquilable{
 
     @Override
     public String getDescripcion() {
-        return "";
+        return String.format("--Descripcion--\nMarca: " + marca + "\nModelo: " + modelo + "\nVehiculo: " + getTipoVehiculo().getNombreTipo() + "\nPrecio por dia: " + getTipoVehiculo().getTarifaBase());
+    }
+
+    @Override
+    public boolean estaDisponible() {
+        return isDisponible();
+    }
+
+    @Override
+    public void reservarAlquilable() {
+        setDisponible(false);
+    }
+
+    @Override
+    public void liberarAlquilable() {
+        setDisponible(true);
+    }
+
+    @Override
+    public double calcularCosto(Integer diasReservados) {
+        return tipoVehiculo.calcularCosto(diasReservados);
+    }
+
+    @Override
+    public TipoAlquilable obtenerTipoAlquilable() {
+        return tipoVehiculo;
     }
 }
