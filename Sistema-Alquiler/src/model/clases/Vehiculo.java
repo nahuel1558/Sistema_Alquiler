@@ -1,36 +1,27 @@
 package model.clases;
 
 
-public class Vehiculo extends Alquilable {
-    private TipoAlquilable tipoVehiculo;
+public class Vehiculo implements IAlquilable {
+
+    private Long idVehiculo;
+    private Alquilable alquilable;
     private String marca;
     private String modelo;
-
 
     public Vehiculo() {
     }
 
-    public Vehiculo(CategoriaAlquilable categoria, boolean disponible, TipoAlquilable tipoVehiculo, String marca, String modelo) {
-        super(categoria, disponible);
-        this.tipoVehiculo = tipoVehiculo;
+    public Vehiculo(Alquilable alquilable, String marca, String modelo) {
+        this.alquilable = alquilable;
         this.marca = marca;
         this.modelo = modelo;
     }
 
-    public Vehiculo(Long idAlquilable, CategoriaAlquilable categoria, boolean disponible, TipoAlquilable tipoVehiculo, String marca, String modelo) {
-        super(idAlquilable, categoria, disponible);
-        this.tipoVehiculo = tipoVehiculo;
+    public Vehiculo(Long idVehiculo, Alquilable alquilable, String marca, String modelo) {
+        this.idVehiculo = idVehiculo;
+        this.alquilable = alquilable;
         this.marca = marca;
         this.modelo = modelo;
-    }
-
-
-    public TipoAlquilable getTipoVehiculo() {
-        return tipoVehiculo;
-    }
-
-    public void setTipoVehiculo(TipoAlquilable tipoVehiculo) {
-        this.tipoVehiculo = tipoVehiculo;
     }
 
     public String getMarca() {
@@ -50,32 +41,22 @@ public class Vehiculo extends Alquilable {
     }
 
     @Override
-    public String getDescripcion() {
-        return String.format("--Descripcion--\nMarca: " + marca + "\nModelo: " + modelo + "\nVehiculo: " + getTipoVehiculo().getNombreTipo() + "\nPrecio por dia: " + getTipoVehiculo().getTarifaBase());
+    public Long getId() {
+        return idVehiculo;
     }
 
     @Override
-    public boolean estaDisponible() {
-        return isDisponible();
+    public void setId(Long id) {
+        this.idVehiculo = id;
     }
 
     @Override
-    public void reservarAlquilable() {
-        setDisponible(false);
+    public Alquilable getAlquilable() {
+        return alquilable;
     }
 
     @Override
-    public void liberarAlquilable() {
-        setDisponible(true);
-    }
-
-    @Override
-    public double calcularCosto(Integer diasReservados) {
-        return tipoVehiculo.calcularCosto(diasReservados);
-    }
-
-    @Override
-    public TipoAlquilable obtenerTipoAlquilable() {
-        return tipoVehiculo;
+    public void setAlquilable(Alquilable alquilable) {
+        this.alquilable = alquilable;
     }
 }

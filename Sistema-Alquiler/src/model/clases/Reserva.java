@@ -2,29 +2,29 @@ package model.clases;
 
 import java.util.Date;
 
-public class Reserva <A extends IAlquilable>{
+public class Reserva {
     private Long idReserva;
-    private A alquilable;
     private Usuario usuario;
+    private Integer diasReservado;
     private Date fechaInicio;
     private Date fechaFin;
-    private Integer diaReservado;
+    private EstadoReserva estadoReserva;
 
-    public Reserva(A alquilable, Usuario usuario, Date fechaInicio, Date fechaFin, Integer diaReservado) {
-        this.alquilable = alquilable;
+    public Reserva(Usuario usuario, Integer diasReservado, Date fechaInicio, Date fechaFin, EstadoReserva estadoReserva) {
         this.usuario = usuario;
+        this.diasReservado = diasReservado;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
-        this.diaReservado = diaReservado;
+        this.estadoReserva = estadoReserva;
     }
 
-    public Reserva(Long idReserva, A alquilable, Usuario usuario, Date fechaInicio, Date fechaFin, Integer diaReservado) {
+    public Reserva(Long idReserva, Usuario usuario, Integer diasReservado, Date fechaInicio, Date fechaFin, EstadoReserva estadoReserva) {
         this.idReserva = idReserva;
-        this.alquilable = alquilable;
         this.usuario = usuario;
+        this.diasReservado = diasReservado;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
-        this.diaReservado = diaReservado;
+        this.estadoReserva = estadoReserva;
     }
 
     public Long getIdReserva() {
@@ -33,14 +33,6 @@ public class Reserva <A extends IAlquilable>{
 
     public void setIdReserva(Long idReserva) {
         this.idReserva = idReserva;
-    }
-
-    public A getAlquilable() {
-        return alquilable;
-    }
-
-    public void setAlquilable(A alquilable) {
-        this.alquilable = alquilable;
     }
 
     public Usuario getUsuario() {
@@ -52,11 +44,11 @@ public class Reserva <A extends IAlquilable>{
     }
 
     public Integer getDiasReservado() {
-        return diaReservado;
+        return diasReservado;
     }
 
     public void setDiasReservado(Integer diaReservado) {
-        this.diaReservado = diaReservado;
+        this.diasReservado = diaReservado;
     }
 
     public Date getFechaInicio() {
@@ -75,9 +67,12 @@ public class Reserva <A extends IAlquilable>{
         this.fechaFin = fechaFin;
     }
 
-    public double calcularCosto(){
-        TipoAlquilable tipo = alquilable.obtenerTipoAlquilable();
-        return tipo.calcularCosto(diaReservado);
+    public EstadoReserva getEstadoReserva() {
+        return estadoReserva;
+    }
+
+    public void setEstadoReserva(EstadoReserva estadoReserva) {
+        this.estadoReserva = estadoReserva;
     }
 }
 

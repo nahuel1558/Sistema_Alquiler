@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="72fd53b1-41f3-4485-bdc5-dd76dd5cdfc3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sistema-Alquiler/src/model/clases/Vehiculo.java" beforeDir="false" afterPath="$PROJECT_DIR$/Sistema-Alquiler/src/model/clases/Vehiculo.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +32,8 @@
     "last_opened_file_path": "C:/Users/Nahuel/Documents/Instituto/3° Año/EDI 3/Sistema de Alquiler/Sistema_Alquiler",
     "project.structure.last.edited": "Global Libraries",
     "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.2"
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
   <component name="RecentsManager">

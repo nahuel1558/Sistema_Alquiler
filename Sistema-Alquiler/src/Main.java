@@ -25,8 +25,6 @@ public class Main {
         vehiculo.setModelo("Corolla");
         vehiculo.setDisponible(true);
 
-        Reserva<Vehiculo> reserva = new Reserva<>(vehiculo, usuario, new Date(), new Date(), 5);
-
         factory.datos(reserva);
     }
 }

@@ -1,12 +1,8 @@
 package model.clases;
 
 public interface IAlquilable {
-
-
-    /*String getDescripcion();
-    boolean estaDisponible();
-    void reservarAlquilable();
-    void liberarAlquilable();
-    double calcularCosto(Integer diasReservado);
-    TipoAlquilable obtenerTipoAlquilable();*/
+    Long getId();
+    void setId(Long id);
+    Alquilable getAlquilable();
+    void setAlquilable(Alquilable alquilable);
 }

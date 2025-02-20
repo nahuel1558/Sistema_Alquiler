@@ -1,11 +1,12 @@
 package model.factories.factoryMethod;
 
 import model.clases.IAlquilable;
+import model.clases.IGestionReserva;
 import model.clases.Vehiculo;
 
 public class VehiculoFactory extends AlquilableFactory {
     @Override
-    public IGestionAlquiler crearAlquilable() {
-        return new AlquilerVehiculo();
+    public IAlquilable crearAlquilable() {
+        return new Vehiculo();
     }
 }

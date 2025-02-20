@@ -1,22 +1,29 @@
 package model.clases;
 
-public abstract class Alquilable implements IAlquilable {
+public class Alquilable{
     private Long idAlquilable;
     private CategoriaAlquilable categoria;
+    private TipoAlquilable tipoAlquilable;
+    private String descripcion;
     private boolean disponible;
+
 
     public Alquilable() {
     }
 
-    public Alquilable(CategoriaAlquilable categoria, boolean disponible) {
+    public Alquilable(CategoriaAlquilable categoria, TipoAlquilable tipoAlquilable, String descripcion, boolean disponible) {
         this.categoria = categoria;
+        this.tipoAlquilable = tipoAlquilable;
+        this.descripcion = descripcion;
         this.disponible = disponible;
     }
 
-    public Alquilable(Long idAlquilable, CategoriaAlquilable categoria, boolean disponible) {
-        this.idAlquilable = idAlquilable;
-        this.categoria = categoria;
+    public Alquilable(boolean disponible, String descripcion, TipoAlquilable tipoAlquilable, CategoriaAlquilable categoria, Long idAlquilable) {
         this.disponible = disponible;
+        this.descripcion = descripcion;
+        this.tipoAlquilable = tipoAlquilable;
+        this.categoria = categoria;
+        this.idAlquilable = idAlquilable;
     }
 
     public Long getIdAlquilable() {
@@ -33,6 +40,22 @@ public abstract class Alquilable implements IAlquilable {
 
     public void setCategoria(CategoriaAlquilable categoria) {
         this.categoria = categoria;
+    }
+
+    public TipoAlquilable getTipoAlquilable() {
+        return tipoAlquilable;
+    }
+
+    public void setTipoAlquilable(TipoAlquilable tipoAlquilable) {
+        this.tipoAlquilable = tipoAlquilable;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public boolean isDisponible() {
