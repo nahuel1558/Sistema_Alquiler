@@ -4,6 +4,9 @@ public class CategoriaAlquilable {
     private Long idCategoria;
     private String nombreCategoria;
 
+    public CategoriaAlquilable() {
+    }
+
     public CategoriaAlquilable(String nombreCategoria) {
         this.nombreCategoria = nombreCategoria;
     }

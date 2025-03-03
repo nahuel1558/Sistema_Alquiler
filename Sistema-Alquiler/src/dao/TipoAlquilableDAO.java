@@ -1,47 +1,50 @@
 package dao;
 
 import config.DataBaseConnection;
-import model.clases.Vehiculo;
+import model.clases.TipoAlquilable;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VehiculoDAO implements IDAO<Vehiculo>{
-    private static volatile VehiculoDAO instance;
+public class TipoAlquilableDAO implements IDAO<TipoAlquilable> {
 
+    private static volatile TipoAlquilableDAO instance;
 
-    private static final String INSERT_SQL = "INSERT INTO vehiculos(alquilable_id, marca, modelo) VALUE(?,?,?);";
-    private static final String UPDATE_SQL = "UPDATE vehiculos SET marca=?, modelo=? WHERE id=?";
-    private static final String SELECT_ALL_SQL = "SELECT FROM vehiculos";
-    private static final String SELECT_BY_ID_SQL = "SELECT * FROM vehiculos WHERE id = ?";
-    private static final String DELETE_SQL = "DELETE FROM vehiculos WHERE id= ?";
+    private static final String INSERT_SQL = "INSERT INTO tipos_alquilable(id, nombre_tipo, tarifa_base) VALUE(?,?,?);";
+    private static final String UPDATE_SQL = "UPDATE tipos_alquilable SET nombre_tipo=?, tarifa_base=? WHERE id=?";
+    private static final String SELECT_ALL_SQL = "SELECT * FROM tipos_alquilable";
+    private static final String SELECT_BY_ID_SQL = "SELECT * FROM tipos_alquilable WHERE id = ?";
+    private static final String DELETE_SQL = "DELETE FROM tipos_alquilable WHERE id= ?";
 
-    private VehiculoDAO(){}
+    private TipoAlquilableDAO(){}
 
-    public static VehiculoDAO getInstance(){
+    public static TipoAlquilableDAO getInstance(){
         if(instance == null){
-            synchronized (VehiculoDAO.class){
+            synchronized (TipoAlquilableDAO.class){
                 if(instance == null){
-                    instance = new VehiculoDAO();
+                    instance = new TipoAlquilableDAO();
                 }
             }
         }
         return instance;
     }
 
-    private Connection getConnection()throws SQLException{
+    private Connection getConnection()throws SQLException {
         return DataBaseConnection.getConnection();
     }
 
     @Override
-    public boolean crear(Vehiculo object) {
+    public boolean crear(TipoAlquilable object) {
         try(Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(INSERT_SQL)) {
 
-            statement.setLong(1, object.getAlquilable().getIdAlquilable());
-            statement.setString(2, object.getMarca());
-            statement.setString(3, object.getModelo());
+            statement.setString(1, object.getNombreTipo());
+            statement.setDouble(2, object.getTarifaBase());
+
 
             Integer lineaAfectada = statement.executeUpdate();
             return lineaAfectada > 0;
@@ -52,12 +55,12 @@ public class VehiculoDAO implements IDAO<Vehiculo>{
     }
 
     @Override
-    public boolean actualizar(Vehiculo object) {
+    public boolean actualizar(TipoAlquilable object) {
         try(Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)){
 
-            statement.setString(1, object.getMarca());
-            statement.setString(2, object.getModelo());
+            statement.setString(1, object.getNombreTipo());
+            statement.setDouble(2, object.getTarifaBase());
 
             int lineaAfectada = statement.executeUpdate();
             return lineaAfectada > 0;
@@ -68,39 +71,39 @@ public class VehiculoDAO implements IDAO<Vehiculo>{
     }
 
     @Override
-    public List<Vehiculo> listar() {
-        List<Vehiculo> vehiculoList = new ArrayList<>();
+    public List<TipoAlquilable> listar() {
+        List<TipoAlquilable> tipoAlquilableList = new ArrayList<>();
         try(Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(SELECT_ALL_SQL);
             ResultSet resultSet = statement.executeQuery()){
 
             while(resultSet.next()){
-                Vehiculo vehiculo = mapVehiculo(resultSet);
-                vehiculoList.add(vehiculo);
+                TipoAlquilable tipoAlquilable = mapTipoAlquilable(resultSet);
+                tipoAlquilableList.add(tipoAlquilable);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return vehiculoList;
+        return tipoAlquilableList;
     }
 
     @Override
-    public Vehiculo obtenerPorId(Long id) {
-        Vehiculo vehiculo = null;
+    public TipoAlquilable obtenerPorId(Long id) {
+        TipoAlquilable tipoAlquilable = null;
 
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID_SQL)) {
             statement.setLong(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    vehiculo = mapVehiculo(resultSet);
+                    tipoAlquilable = mapTipoAlquilable(resultSet);
                 }
             }
         } catch (SQLException e) {
             throw new RuntimeException("Error al obtener por ID", e);
         }
 
-        return vehiculo;
+        return tipoAlquilable;
     }
 
     @Override
@@ -116,14 +119,13 @@ public class VehiculoDAO implements IDAO<Vehiculo>{
         }
     }
 
-    private Vehiculo mapVehiculo(ResultSet resultSet) throws SQLException {
-        Vehiculo vehiculo = new Vehiculo();
+    private TipoAlquilable mapTipoAlquilable(ResultSet resultSet) throws SQLException {
+        TipoAlquilable tipoAlquilable = new TipoAlquilable();
 
-        vehiculo.setId(resultSet.getLong("id"));
-        vehiculo.setAlquilable(AlquilableDAO.getInstance().obtenerPorId(resultSet.getLong("id_alquilable")));
-        vehiculo.setMarca(resultSet.getString("marca"));
-        vehiculo.setModelo(resultSet.getString("modelo"));
+        tipoAlquilable.setIdTipoAlquilable(resultSet.getLong("id"));
+        tipoAlquilable.setNombreTipo(resultSet.getString("nombre_tipo"));
+        tipoAlquilable.setTarifaBase(resultSet.getDouble("tarifa_base"));
 
-        return vehiculo;
+        return tipoAlquilable;
     }
 }

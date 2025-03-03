@@ -1,47 +1,46 @@
 package dao;
 
 import config.DataBaseConnection;
-import model.clases.Vehiculo;
+import model.clases.CategoriaAlquilable;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VehiculoDAO implements IDAO<Vehiculo>{
-    private static volatile VehiculoDAO instance;
+public class CategoriaAlquilableDAO implements IDAO<CategoriaAlquilable> {
+
+    private static volatile CategoriaAlquilableDAO instance;
+
+    private static final String INSERT_SQL = "INSERT INTO categorias_alquilable(id, nombre_categoria) VALUE(?,?);";
+    private static final String UPDATE_SQL = "UPDATE categorias_alquilable SET nombre_categoria=? WHERE id=?";
+    private static final String SELECT_ALL_SQL = "SELECT * FROM categorias_alquilable";
+    private static final String SELECT_BY_ID_SQL = "SELECT * FROM categorias_alquilable WHERE id = ?";
+    private static final String DELETE_SQL = "DELETE FROM categorias_alquilable WHERE id= ?";
 
 
-    private static final String INSERT_SQL = "INSERT INTO vehiculos(alquilable_id, marca, modelo) VALUE(?,?,?);";
-    private static final String UPDATE_SQL = "UPDATE vehiculos SET marca=?, modelo=? WHERE id=?";
-    private static final String SELECT_ALL_SQL = "SELECT FROM vehiculos";
-    private static final String SELECT_BY_ID_SQL = "SELECT * FROM vehiculos WHERE id = ?";
-    private static final String DELETE_SQL = "DELETE FROM vehiculos WHERE id= ?";
+    private CategoriaAlquilableDAO(){}
 
-    private VehiculoDAO(){}
-
-    public static VehiculoDAO getInstance(){
+    public static CategoriaAlquilableDAO getInstance(){
         if(instance == null){
-            synchronized (VehiculoDAO.class){
+            synchronized (CategoriaAlquilableDAO.class){
                 if(instance == null){
-                    instance = new VehiculoDAO();
+                    instance = new CategoriaAlquilableDAO();
                 }
             }
         }
         return instance;
     }
 
-    private Connection getConnection()throws SQLException{
+    private Connection getConnection()throws SQLException {
         return DataBaseConnection.getConnection();
     }
 
     @Override
-    public boolean crear(Vehiculo object) {
+    public boolean crear(CategoriaAlquilable object) {
         try(Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(INSERT_SQL)) {
 
-            statement.setLong(1, object.getAlquilable().getIdAlquilable());
-            statement.setString(2, object.getMarca());
-            statement.setString(3, object.getModelo());
+            statement.setString(1, object.getNombreCategoria());
 
             Integer lineaAfectada = statement.executeUpdate();
             return lineaAfectada > 0;
@@ -52,12 +51,11 @@ public class VehiculoDAO implements IDAO<Vehiculo>{
     }
 
     @Override
-    public boolean actualizar(Vehiculo object) {
+    public boolean actualizar(CategoriaAlquilable object) {
         try(Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)){
 
-            statement.setString(1, object.getMarca());
-            statement.setString(2, object.getModelo());
+            statement.setString(1, object.getNombreCategoria());
 
             int lineaAfectada = statement.executeUpdate();
             return lineaAfectada > 0;
@@ -68,39 +66,39 @@ public class VehiculoDAO implements IDAO<Vehiculo>{
     }
 
     @Override
-    public List<Vehiculo> listar() {
-        List<Vehiculo> vehiculoList = new ArrayList<>();
+    public List<CategoriaAlquilable> listar() {
+        List<CategoriaAlquilable> categoriaList = new ArrayList<>();
         try(Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(SELECT_ALL_SQL);
             ResultSet resultSet = statement.executeQuery()){
 
             while(resultSet.next()){
-                Vehiculo vehiculo = mapVehiculo(resultSet);
-                vehiculoList.add(vehiculo);
+                CategoriaAlquilable categoria = mapCategoria(resultSet);
+                categoriaList.add(categoria);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return vehiculoList;
+        return categoriaList;
     }
 
     @Override
-    public Vehiculo obtenerPorId(Long id) {
-        Vehiculo vehiculo = null;
+    public CategoriaAlquilable obtenerPorId(Long id) {
+        CategoriaAlquilable categoriaAlquilable = null;
 
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID_SQL)) {
             statement.setLong(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    vehiculo = mapVehiculo(resultSet);
+                    categoriaAlquilable = mapCategoria(resultSet);
                 }
             }
         } catch (SQLException e) {
             throw new RuntimeException("Error al obtener por ID", e);
         }
 
-        return vehiculo;
+        return categoriaAlquilable;
     }
 
     @Override
@@ -116,14 +114,12 @@ public class VehiculoDAO implements IDAO<Vehiculo>{
         }
     }
 
-    private Vehiculo mapVehiculo(ResultSet resultSet) throws SQLException {
-        Vehiculo vehiculo = new Vehiculo();
+    private CategoriaAlquilable mapCategoria(ResultSet resultSet) throws SQLException {
+        CategoriaAlquilable categoria = new CategoriaAlquilable();
 
-        vehiculo.setId(resultSet.getLong("id"));
-        vehiculo.setAlquilable(AlquilableDAO.getInstance().obtenerPorId(resultSet.getLong("id_alquilable")));
-        vehiculo.setMarca(resultSet.getString("marca"));
-        vehiculo.setModelo(resultSet.getString("modelo"));
+        categoria.setIdCategoria(resultSet.getLong("id"));
+        categoria.setNombreCategoria(resultSet.getString("nombre_categoria"));
 
-        return vehiculo;
+        return categoria;
     }
 }

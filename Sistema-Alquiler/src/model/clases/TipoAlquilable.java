@@ -12,6 +12,12 @@ public class TipoAlquilable {
     public TipoAlquilable() {
     }
 
+    public TipoAlquilable(Long idTipoAlquilable, String nombreTipo, double tarifaBase) {
+        this.idTipoAlquilable = idTipoAlquilable;
+        this.nombreTipo = nombreTipo;
+        this.tarifaBase = tarifaBase;
+    }
+
     public TipoAlquilable(String nombreTipo, double tarifaBase, IEstrategiaCosto estrategiaCosto) {
         this.nombreTipo = nombreTipo;
         this.tarifaBase = tarifaBase;

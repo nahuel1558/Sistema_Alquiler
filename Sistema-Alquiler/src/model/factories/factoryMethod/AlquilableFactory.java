@@ -1,19 +1,17 @@
 package model.factories.factoryMethod;
 
 import model.clases.IAlquilable;
-import model.clases.IGestionReserva;
-import model.clases.Reserva;
-import model.clases.Usuario;
+import model.clasesAlquileres.GestionReserva;
+import model.clasesAlquileres.IGestionAlquiler;
 
 public abstract class AlquilableFactory {
 
-    public IGestionReserva crearReserva(Usuario usuario, Reserva reserva, IAlquilable alquilable){
-        IGestionReserva alquilerAlquilable = crearAlquilable();
-        alquilerAlquilable.setUsuario(usuario);
-        alquilerAlquilable.setReserva(reserva);
-        alquilerAlquilable.setAlquilerAlquilable(alquilable);
+    public IGestionAlquiler realizarAlquiler(GestionReserva gestionReserva, IAlquilable alquilable){
+        IGestionAlquiler alquilerAlquilable = crearAlquilable();
+        alquilerAlquilable.setGestionReserva(gestionReserva);
+        alquilerAlquilable.setAlquiler(alquilable);
         return alquilerAlquilable;
     }
 
-    public abstract IGestionReserva crearAlquilable();
+    public abstract IGestionAlquiler crearAlquilable();
 }

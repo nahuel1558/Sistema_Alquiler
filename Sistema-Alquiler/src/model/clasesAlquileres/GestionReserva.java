@@ -1,25 +1,25 @@
-package model.clases;
+package model.clasesAlquileres;
 
-public class GestionReserva implements IGestionReserva{
+import model.clases.Reserva;
+import model.clases.Usuario;
+
+public class GestionReserva {
     private Long idGestionReserva;
     private Usuario usuario;
     private Reserva reserva;
-    private IAlquilable alquilable;
 
     public GestionReserva() {
     }
 
-    public GestionReserva(Usuario usuario, Reserva reserva, IAlquilable alquilable) {
+    public GestionReserva(Usuario usuario, Reserva reserva) {
         this.usuario = usuario;
         this.reserva = reserva;
-        this.alquilable = alquilable;
     }
 
-    public GestionReserva(Long idGestionReserva, Usuario usuario, Reserva reserva, IAlquilable alquilable) {
+    public GestionReserva(Long idGestionReserva, Usuario usuario, Reserva reserva) {
         this.idGestionReserva = idGestionReserva;
         this.usuario = usuario;
         this.reserva = reserva;
-        this.alquilable = alquilable;
     }
 
     public Long getIdGestionReserva() {
@@ -44,13 +44,5 @@ public class GestionReserva implements IGestionReserva{
 
     public void setReserva(Reserva reserva) {
         this.reserva = reserva;
-    }
-
-    public IAlquilable getAlquilable() {
-        return alquilable;
-    }
-
-    public void setAlquilable(IAlquilable alquilable) {
-        this.alquilable = alquilable;
     }
 }

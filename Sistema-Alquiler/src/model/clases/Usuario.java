@@ -8,6 +8,9 @@ public class Usuario {
     private String email;
     private Long celular;
 
+    public Usuario() {
+    }
+
     public Usuario(String nombre, String apellido, Long dni, String email, Long celular) {
         this.nombre = nombre;
         this.apellido = apellido;
