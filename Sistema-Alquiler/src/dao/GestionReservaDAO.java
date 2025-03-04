@@ -1,8 +1,7 @@
 package dao;
 
 import config.DataBaseConnection;
-import model.clases.TipoAlquilable;
-
+import model.clasesAlquileres.GestionReserva;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,23 +9,24 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TipoAlquilableDAO implements IDAO<TipoAlquilable> {
+public class GestionReservaDAO implements IDAO<GestionReserva> {
 
-    private static volatile TipoAlquilableDAO instance;
+    private static volatile GestionReservaDAO instance;
 
-    private static final String INSERT_SQL = "INSERT INTO tipos_alquilable(nombre_tipo, tarifa_base) VALUE(?,?);";
-    private static final String UPDATE_SQL = "UPDATE tipos_alquilable SET nombre_tipo=?, tarifa_base=? WHERE id=?";
-    private static final String SELECT_ALL_SQL = "SELECT * FROM tipos_alquilable";
-    private static final String SELECT_BY_ID_SQL = "SELECT * FROM tipos_alquilable WHERE id = ?";
-    private static final String DELETE_SQL = "DELETE FROM tipos_alquilable WHERE id= ?";
+    private static final String INSERT_SQL = "INSERT INTO gestion_reservas(id_usuario, id_reserva) VALUE(?,?);";
+    private static final String UPDATE_SQL = "UPDATE gestion_reservas SET id_usuario=?, id_reserva=? WHERE id=?";
+    private static final String SELECT_ALL_SQL = "SELECT * FROM gestion_reservas ";
+    private static final String SELECT_BY_ID_SQL = "SELECT * FROM gestion_reservas WHERE id = ?";
+    private static final String DELETE_SQL = "DELETE FROM gestion_reservas WHERE id= ?";
+    private static final String SELECT_LAST_ALQUILABLE_SQL = "SELECT * FROM gestion_reservas ORDER BY id DESC LIMIT 1";
 
-    private TipoAlquilableDAO(){}
+    private GestionReservaDAO(){}
 
-    public static TipoAlquilableDAO getInstance(){
+    public static GestionReservaDAO getInstance(){
         if(instance == null){
-            synchronized (TipoAlquilableDAO.class){
+            synchronized (GestionReservaDAO.class){
                 if(instance == null){
-                    instance = new TipoAlquilableDAO();
+                    instance = new GestionReservaDAO();
                 }
             }
         }
@@ -38,13 +38,12 @@ public class TipoAlquilableDAO implements IDAO<TipoAlquilable> {
     }
 
     @Override
-    public boolean crear(TipoAlquilable object) {
+    public boolean crear(GestionReserva object) {
         try(Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(INSERT_SQL)) {
 
-            statement.setString(1, object.getNombreTipo());
-            statement.setDouble(2, object.getTarifaBase());
-
+            statement.setLong(1, object.getReserva().getIdReserva());
+            statement.setLong(2, object.getUsuario().getIdUsuario());
 
             Integer lineaAfectada = statement.executeUpdate();
             return lineaAfectada > 0;
@@ -55,12 +54,12 @@ public class TipoAlquilableDAO implements IDAO<TipoAlquilable> {
     }
 
     @Override
-    public boolean actualizar(TipoAlquilable object) {
+    public boolean actualizar(GestionReserva object) {
         try(Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)){
 
-            statement.setString(1, object.getNombreTipo());
-            statement.setDouble(2, object.getTarifaBase());
+            statement.setLong(1, object.getReserva().getIdReserva());
+            statement.setLong(2, object.getUsuario().getIdUsuario());
 
             int lineaAfectada = statement.executeUpdate();
             return lineaAfectada > 0;
@@ -71,39 +70,39 @@ public class TipoAlquilableDAO implements IDAO<TipoAlquilable> {
     }
 
     @Override
-    public List<TipoAlquilable> listar() {
-        List<TipoAlquilable> tipoAlquilableList = new ArrayList<>();
+    public List<GestionReserva> listar() {
+        List<GestionReserva> gestionReservaList = new ArrayList<>();
         try(Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(SELECT_ALL_SQL);
             ResultSet resultSet = statement.executeQuery()){
 
             while(resultSet.next()){
-                TipoAlquilable tipoAlquilable = mapTipoAlquilable(resultSet);
-                tipoAlquilableList.add(tipoAlquilable);
+                GestionReserva gestionReserva = mapGestionReserva(resultSet);
+                gestionReservaList.add(gestionReserva);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return tipoAlquilableList;
+        return gestionReservaList;
     }
 
     @Override
-    public TipoAlquilable obtenerPorId(Long id) {
-        TipoAlquilable tipoAlquilable = null;
+    public GestionReserva obtenerPorId(Long id) {
+        GestionReserva gestionReserva = null;
 
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID_SQL)) {
             statement.setLong(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    tipoAlquilable = mapTipoAlquilable(resultSet);
+                    gestionReserva = mapGestionReserva(resultSet);
                 }
             }
         } catch (SQLException e) {
             throw new RuntimeException("Error al obtener por ID", e);
         }
 
-        return tipoAlquilable;
+        return gestionReserva;
     }
 
     @Override
@@ -118,14 +117,11 @@ public class TipoAlquilableDAO implements IDAO<TipoAlquilable> {
             throw new RuntimeException("Error al eliminar por ID", e);
         }
     }
-
-    private TipoAlquilable mapTipoAlquilable(ResultSet resultSet) throws SQLException {
-        TipoAlquilable tipoAlquilable = new TipoAlquilable();
-
-        tipoAlquilable.setIdTipoAlquilable(resultSet.getLong("id"));
-        tipoAlquilable.setNombreTipo(resultSet.getString("nombre_tipo"));
-        tipoAlquilable.setTarifaBase(resultSet.getDouble("tarifa_base"));
-
-        return tipoAlquilable;
+    private GestionReserva mapGestionReserva(ResultSet resultSet) throws SQLException {
+        GestionReserva gestionReserva = new GestionReserva();
+        gestionReserva.setIdGestionReserva(resultSet.getLong("id"));
+        gestionReserva.setReserva(ReservaDAO.getInstance().obtenerPorId(resultSet.getLong("id_reserva")));
+        gestionReserva.setUsuario(UsuarioDAO.getInstance().obtenerPorId(resultSet.getLong("id_usuario")));
+        return gestionReserva;
     }
 }

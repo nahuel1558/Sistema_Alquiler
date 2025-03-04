@@ -19,13 +19,8 @@ public class AlquilableDAO implements IDAO<Alquilable>{
 
     private static final String INSERT_SQL = "INSERT INTO alquilables(id_categoria, id_tipo, descripcion, disponible) VALUE(?,?,?,?);";
     private static final String UPDATE_SQL = "UPDATE alquilables SET disponible=?, descripcion=? WHERE id=?";
-    private static final String SELECT_ALL_SQL = "SELECT a.*, c.*, t.* FROM alquilables a " +
-            "JOIN categorias_alquilable c ON a.id_categoria = c.id " +
-            "JOIN tipos_alquilables t ON a.id_tipo = c.id ";
-    private static final String SELECT_BY_ID_SQL = "SELECT a.*, c.*, t.* FROM alquilables a " +
-            "JOIN categorias_alquilable c ON a.id_categoria = c.id " +
-            "JOIN tipos_alquilables t ON a.id_tipo = c.id " +
-            "WHERE a.id = ?";
+    private static final String SELECT_ALL_SQL = "SELECT * FROM alquilables";
+    private static final String SELECT_BY_ID_SQL = "SELECT * FROM alquilables WHERE id = ?";
     private static final String DELETE_SQL = "DELETE FROM alquilables WHERE id= ?";
     private static final String SELECT_LAST_ALQUILABLE_SQL = "SELECT * FROM alquilables ORDER BY id DESC LIMIT 1";
 
@@ -56,7 +51,7 @@ public class AlquilableDAO implements IDAO<Alquilable>{
             statement.setString(3, object.getDescripcion());
             statement.setBoolean(4, object.isDisponible());
 
-            Integer lineaAfectada = statement.executeUpdate();
+            int lineaAfectada = statement.executeUpdate();
             return lineaAfectada > 0;
 
         } catch (SQLException e) {
@@ -153,8 +148,8 @@ public class AlquilableDAO implements IDAO<Alquilable>{
         Alquilable alquilable = new Alquilable();
 
         alquilable.setIdAlquilable(resultSet.getLong("id"));
-        alquilable.setCategoria(new CategoriaAlquilable(resultSet.getLong("id_categoria"), resultSet.getString("nombre_categoria")));
-        alquilable.setTipoAlquilable(new TipoAlquilable(resultSet.getLong("id_tipo"), resultSet.getString("nombre_tipo"), resultSet.getDouble("tarifa_base")));
+        alquilable.setCategoria(CategoriaAlquilableDAO.getInstance().obtenerPorId(resultSet.getLong("id_categoria")));
+        alquilable.setTipoAlquilable(TipoAlquilableDAO.getInstance().obtenerPorId(resultSet.getLong("id_tipo")));
         alquilable.setDescripcion(resultSet.getString("descripcion"));
         alquilable.setDisponible(resultSet.getBoolean("disponible"));
 

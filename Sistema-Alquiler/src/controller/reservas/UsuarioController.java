@@ -1,4 +1,4 @@
-package controller;
+package controller.reservas;
 
 public class UsuarioController {
 }

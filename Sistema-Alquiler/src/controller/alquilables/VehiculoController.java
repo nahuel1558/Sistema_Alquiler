@@ -1,5 +1,6 @@
-package controller;
+package controller.alquilables;
 
+import controller.AlquilableController;
 import dao.VehiculoDAO;
 import model.clases.CategoriaAlquilable;
 import model.clases.TipoAlquilable;

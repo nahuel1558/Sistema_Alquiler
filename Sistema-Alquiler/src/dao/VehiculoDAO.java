@@ -10,7 +10,6 @@ import java.util.List;
 public class VehiculoDAO implements IDAO<Vehiculo>{
     private static volatile VehiculoDAO instance;
 
-
     private static final String INSERT_SQL = "INSERT INTO vehiculos(alquilable_id, marca, modelo) VALUE(?,?,?);";
     private static final String UPDATE_SQL = "UPDATE vehiculos SET marca=?, modelo=? WHERE id=?";
     private static final String SELECT_ALL_SQL = "SELECT FROM vehiculos";
