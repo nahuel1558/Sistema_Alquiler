@@ -1,6 +1,7 @@
 package dao;
 
 import config.DataBaseConnection;
+import model.clases.Alquilable;
 import model.clases.Reserva;
 
 import java.sql.*;
@@ -17,6 +18,7 @@ public class ReservaDAO implements IDAO<Reserva> {
     private static final String SELECT_RESERVA_ALL_SQL = "SELECT * FROM reservas";
     private static final String UPDATE_RESERVA_SQL = "UPDATE reservas SET dias_reservado=?, fecha_inicio=?, fecha_fin=? WHERE id=?;";
     private static final String DELETE_RESERVA_BY_ID_SQL = "DELETE FROM reservas WHERE id=?;";
+    private static final String SELECT_LAST_ALQUILABLE_SQL = "SELECT * FROM reservas ORDER BY id DESC LIMIT 1";
 
     private ReservaDAO(){}
 
@@ -116,6 +118,23 @@ public class ReservaDAO implements IDAO<Reserva> {
         } catch (SQLException e) {
             throw new RuntimeException("Error al eliminar la reserva por ID", e);
         }
+    }
+    public Reserva obtenerUltimaReserva() {
+        Reserva reserva = null;
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(SELECT_LAST_ALQUILABLE_SQL);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            if (resultSet.next()) {
+                reserva = mapReserva(resultSet);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al obtener la última reserva", e);
+        }
+
+        return reserva;
     }
 
     private Reserva mapReserva(ResultSet resultSet) throws SQLException {

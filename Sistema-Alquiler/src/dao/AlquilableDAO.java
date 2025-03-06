@@ -23,7 +23,7 @@ public class AlquilableDAO implements IDAO<Alquilable>{
     private static final String SELECT_BY_ID_SQL = "SELECT * FROM alquilables WHERE id = ?";
     private static final String DELETE_SQL = "DELETE FROM alquilables WHERE id= ?";
     private static final String SELECT_LAST_ALQUILABLE_SQL = "SELECT * FROM alquilables ORDER BY id DESC LIMIT 1";
-
+    private static final String SELECT_ALL_DISPONIBLE_SQL = "SELECT * FROM alquilables WHERE disponible = true";
     private AlquilableDAO(){}
 
     public static AlquilableDAO getInstance(){
@@ -142,6 +142,22 @@ public class AlquilableDAO implements IDAO<Alquilable>{
         }
 
         return alquilable;
+    }
+
+    public List<Long> traerListaIdAlquilableDisponible(){
+        List<Long> idAlquilableList = new ArrayList<>();
+        try(Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(SELECT_ALL_DISPONIBLE_SQL);
+            ResultSet resultSet = statement.executeQuery()){
+
+            while(resultSet.next()){
+                Long idAlquilable = resultSet.getLong("id");
+                idAlquilableList.add(idAlquilable);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return idAlquilableList;
     }
 
     private Alquilable mapAlquilable(ResultSet resultSet) throws SQLException {

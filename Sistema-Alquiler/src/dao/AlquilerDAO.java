@@ -123,20 +123,12 @@ public class AlquilerDAO implements IDAO<IGestionAlquiler> {
             throw new RuntimeException("Error al eliminar por ID", e);
         }
     }
-    private IGestionAlquiler mapGestionAlquiler(ResultSet resultSet) throws SQLException {
-        IGestionAlquiler iGestionAlquiler = null;
-
-        iGestionAlquiler.setId(resultSet.getLong("id"));
-        iGestionAlquiler.setGestionReserva(GestionReservaDAO.getInstance().obtenerPorId(resultSet.getLong("id_gestion_reserva")));
-        return iGestionAlquiler;
-    }
-
-    public List<IGestionAlquiler> listarAlquilerVehiculo(CategoriaAlquilable categoria) {
+    public List<IGestionAlquiler> listarAlquilerVehiculo(String categoria) {
         List<IGestionAlquiler> iGestionAlquilerList = new ArrayList<>();
-        String sql = "SELECT * FROM alquileres WHERE categoria = 'vehiculo'";
+        String sql = "SELECT * FROM alquileres WHERE categoria = ?";
         try(Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(sql)){
-            statement.setString(1, categoria.getNombreCategoria().toLowerCase());
+            statement.setString(1, categoria.toLowerCase());
     try(ResultSet resultSet = statement.executeQuery()){
         while(resultSet.next()){
             IGestionAlquiler iGestionAlquiler = mapAlquilerVehiculo(resultSet);
@@ -147,6 +139,16 @@ public class AlquilerDAO implements IDAO<IGestionAlquiler> {
             throw new RuntimeException(e);
         }
         return iGestionAlquilerList;
+    }
+
+    private IGestionAlquiler mapGestionAlquiler(ResultSet resultSet) throws SQLException {
+        IGestionAlquiler iGestionAlquiler = null;
+
+        iGestionAlquiler.setId(resultSet.getLong("id"));
+        iGestionAlquiler.setGestionReserva(GestionReservaDAO.getInstance().obtenerPorId(resultSet.getLong("id_gestion_reserva")));
+        //iGestionAlquiler.setAlquiler(resultSet.getLong("id_alquilable"));
+       // iGestionAlquiler.setAlquiler(resultSet.getString("categoria"));
+        return iGestionAlquiler;
     }
 
     private IGestionAlquiler mapAlquilerVehiculo(ResultSet resultSet) throws SQLException {

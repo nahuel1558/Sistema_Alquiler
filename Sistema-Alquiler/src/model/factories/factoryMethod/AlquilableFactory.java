@@ -10,6 +10,8 @@ public abstract class AlquilableFactory {
         IGestionAlquiler alquilerAlquilable = crearAlquilable();
         alquilerAlquilable.setGestionReserva(gestionReserva);
         alquilerAlquilable.setAlquiler(alquilable);
+        alquilerAlquilable.setDisponible(alquilable);
+        alquilerAlquilable.guardarCosto();
         return alquilerAlquilable;
     }
 

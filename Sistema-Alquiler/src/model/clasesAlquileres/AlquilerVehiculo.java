@@ -62,7 +62,12 @@ public class AlquilerVehiculo implements IGestionAlquiler{
 
     @Override
     public void guardarCosto(){
-        gestionReserva.getReserva().setCosto(calcularCosto());
+        gestionReserva.setCosto(calcularCosto());
+    }
+
+    @Override
+    public void setDisponible(IAlquilable alquilable) {
+        vehiculo.getAlquilable().setDisponible(false);
     }
 
     @Override

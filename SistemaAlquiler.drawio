@@ -637,7 +637,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="GQOhJIbEAqvd707-nufN-26" value="GestionReserva" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="EPIT8L2cknYKUzUrUatI-1" vertex="1">
-          <mxGeometry x="2506.5" y="-311" width="249" height="170" as="geometry">
+          <mxGeometry x="2506.5" y="-311" width="249" height="190" as="geometry">
             <mxRectangle x="340" y="380" width="170" height="26" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
@@ -650,14 +650,17 @@
         <mxCell id="rmfBrTM3EygM19TTMzsq-26" value="- reserva: Reserva" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="GQOhJIbEAqvd707-nufN-26" vertex="1">
           <mxGeometry y="78" width="249" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="vnVdLb6o9iWM7l53iViC-1" value="- estado: bool" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="GQOhJIbEAqvd707-nufN-26">
+        <mxCell id="vnVdLb6o9iWM7l53iViC-1" value="- estado: bool" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="GQOhJIbEAqvd707-nufN-26" vertex="1">
           <mxGeometry y="104" width="249" height="26" as="geometry" />
         </mxCell>
+        <mxCell id="vnVdLb6o9iWM7l53iViC-0" value="- costo: Double" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="GQOhJIbEAqvd707-nufN-26" vertex="1">
+          <mxGeometry y="130" width="249" height="26" as="geometry" />
+        </mxCell>
         <mxCell id="GQOhJIbEAqvd707-nufN-32" value="" style="line;html=1;strokeWidth=1;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" parent="GQOhJIbEAqvd707-nufN-26" vertex="1">
-          <mxGeometry y="130" width="249" height="8" as="geometry" />
+          <mxGeometry y="156" width="249" height="8" as="geometry" />
         </mxCell>
         <mxCell id="igxsL_uDPP1jfDqxuwxb-18" value="Getters - Setters - Constructores" style="text;align=center;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="GQOhJIbEAqvd707-nufN-26" vertex="1">
-          <mxGeometry y="138" width="249" height="26" as="geometry" />
+          <mxGeometry y="164" width="249" height="26" as="geometry" />
         </mxCell>
         <mxCell id="GQOhJIbEAqvd707-nufN-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=diamondThin;endFill=1;endSize=22;startSize=22;" parent="EPIT8L2cknYKUzUrUatI-1" source="GQOhJIbEAqvd707-nufN-11" target="GQOhJIbEAqvd707-nufN-26" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -827,14 +830,11 @@
         <mxCell id="rmfBrTM3EygM19TTMzsq-14" value="- fechaFin : DateTime" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="rmfBrTM3EygM19TTMzsq-9" vertex="1">
           <mxGeometry y="104" width="249" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="vnVdLb6o9iWM7l53iViC-0" value="- costo: Double" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="rmfBrTM3EygM19TTMzsq-9">
-          <mxGeometry y="130" width="249" height="26" as="geometry" />
-        </mxCell>
         <mxCell id="rmfBrTM3EygM19TTMzsq-15" value="" style="line;html=1;strokeWidth=1;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" parent="rmfBrTM3EygM19TTMzsq-9" vertex="1">
-          <mxGeometry y="156" width="249" height="8" as="geometry" />
+          <mxGeometry y="130" width="249" height="8" as="geometry" />
         </mxCell>
         <mxCell id="igxsL_uDPP1jfDqxuwxb-16" value="Getters - Setters - Constructores" style="text;align=center;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="rmfBrTM3EygM19TTMzsq-9" vertex="1">
-          <mxGeometry y="164" width="249" height="26" as="geometry" />
+          <mxGeometry y="138" width="249" height="26" as="geometry" />
         </mxCell>
         <mxCell id="rmfBrTM3EygM19TTMzsq-28" value="Separo Reserva de usuario e IAlquilable porque necesito que sea mas abstracto, aparte evito que reserva sea mas grande" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;strokeColor=default;" parent="EPIT8L2cknYKUzUrUatI-1" vertex="1">
           <mxGeometry x="2736" y="-668" width="296" height="57" as="geometry" />

@@ -5,6 +5,7 @@ import model.clases.Vehiculo;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class VehiculoDAO implements IDAO<Vehiculo>{
@@ -15,6 +16,7 @@ public class VehiculoDAO implements IDAO<Vehiculo>{
     private static final String SELECT_ALL_SQL = "SELECT FROM vehiculos";
     private static final String SELECT_BY_ID_SQL = "SELECT * FROM vehiculos WHERE id = ?";
     private static final String DELETE_SQL = "DELETE FROM vehiculos WHERE id= ?";
+    private static final String SELECT_ALL_DISPONIBLE_SQL = "SELECT * FROM vehiculos WHERE id_alquilable = ?";
 
     private VehiculoDAO(){}
 
@@ -115,6 +117,26 @@ public class VehiculoDAO implements IDAO<Vehiculo>{
         }
     }
 
+    public List<Vehiculo> traerListaVehiculoDisponible(List<Long> idAlquilable){
+        List<Vehiculo> vehiculoList = new ArrayList<>();
+        String sql = "SELECT * FROM vehiculos WHERE id_alquilable IN (" +
+                String.join(",", Collections.nCopies(idAlquilable.size(), "?")) + ")";
+        try(Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql)){
+            for (int i = 0; i < idAlquilable.size(); i ++){
+                statement.setLong(i+1, idAlquilable.get(i));
+            }
+            try(ResultSet resultSet = statement.executeQuery()){
+                while(resultSet.next()){
+                    Vehiculo vehiculo = mapVehiculo(resultSet);
+                    vehiculoList.add(vehiculo);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return vehiculoList;
+    }
     private Vehiculo mapVehiculo(ResultSet resultSet) throws SQLException {
         Vehiculo vehiculo = new Vehiculo();
 

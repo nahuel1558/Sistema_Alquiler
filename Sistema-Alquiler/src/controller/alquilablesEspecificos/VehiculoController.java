@@ -1,13 +1,14 @@
-package controller.alquilables;
+package controller.alquilablesEspecificos;
 
-import controller.AlquilableController;
+import controller.alquilable.AlquilableController;
 import dao.VehiculoDAO;
-import model.clases.CategoriaAlquilable;
-import model.clases.TipoAlquilable;
-import model.clases.Vehiculo;
-import model.clases.Alquilable;
+import model.clases.*;
+import model.factories.factoryMethod.AlquilableFactory;
+import model.factories.factoryMethod.VehiculoFactory;
 
-public class VehiculoController {
+import java.util.List;
+
+public class VehiculoController implements IAlquilableController<Vehiculo> {
 
     private AlquilableController alquilableController;
     private final VehiculoDAO vehiculoDAO;
@@ -22,4 +23,13 @@ public class VehiculoController {
         return vehiculoDAO.crear(new Vehiculo(alquilable, marca, modelo));
     }
 
+    @Override
+    public List<Vehiculo> traerListaDisponible(List<Long> idAlquilable) {
+        return vehiculoDAO.traerListaVehiculoDisponible(idAlquilable);
+    }
+
+    @Override
+    public AlquilableFactory traerFactory() {
+        return new VehiculoFactory();
+    }
 }

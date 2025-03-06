@@ -1,5 +1,6 @@
 package model.clases;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class Reserva {
@@ -7,24 +8,34 @@ public class Reserva {
     private Integer diasReservado;
     private Date fechaInicio;
     private Date fechaFin;
-    private double costo;
 
     public Reserva() {
     }
 
-    public Reserva(Long idReserva, Integer diasReservado, Date fechaInicio, Date fechaFin, double costo) {
+    public Reserva(Integer diasReservado, Date fechaInicio, Date fechaFin) {
+        this.diasReservado = diasReservado;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+    }
+
+    public Reserva(Long idReserva, Integer diasReservado, Date fechaInicio, Date fechaFin) {
         this.idReserva = idReserva;
         this.diasReservado = diasReservado;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
-        this.costo = costo;
     }
 
-    public Reserva(Integer diasReservado, Date fechaInicio, Date fechaFin, double costo) {
-        this.diasReservado = diasReservado;
-        this.fechaInicio = fechaInicio;
-        this.fechaFin = fechaFin;
-        this.costo = costo;
+    public static Reserva nuevaReserva(int diasReservado) {
+        Date fechaInicio = new Date();
+        Date fechaFin = calcularFechaFin(fechaInicio, diasReservado);
+        return new Reserva(diasReservado, fechaInicio, fechaFin);
+    }
+
+    private static Date calcularFechaFin(Date fechaInicio, int diasReservado) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fechaInicio);
+        calendar.add(Calendar.DAY_OF_YEAR, diasReservado);
+        return calendar.getTime();
     }
 
     public Long getIdReserva() {
@@ -59,12 +70,5 @@ public class Reserva {
         this.fechaFin = fechaFin;
     }
 
-    public double getCosto() {
-        return costo;
-    }
-
-    public void setCosto(double costo) {
-        this.costo = costo;
-    }
 }
 

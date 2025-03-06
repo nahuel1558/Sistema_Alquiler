@@ -11,6 +11,6 @@ public interface IGestionAlquiler {
     void setAlquiler(IAlquilable alquiler);
     double calcularCosto();
     void guardarCosto();
-
+    void setDisponible(IAlquilable alquilable);
     String verDescripcion();
     }

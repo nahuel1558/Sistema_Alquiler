@@ -75,4 +75,8 @@ public class Usuario {
     public void setCelular(Long celular) {
         this.celular = celular;
     }
+
+    public String datosEspecificos(){
+        return idUsuario + "-" + nombre + "-" + apellido + "-" + dni;
+    }
 }

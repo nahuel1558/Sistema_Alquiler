@@ -8,6 +8,7 @@ public class GestionReserva {
     private Usuario usuario;
     private Reserva reserva;
     private boolean estado;
+    private double costo;
 
     public GestionReserva() {
     }
@@ -18,11 +19,19 @@ public class GestionReserva {
         this.estado = estado;
     }
 
-    public GestionReserva(Long idGestionReserva, Usuario usuario, Reserva reserva, boolean estado) {
+    public GestionReserva(Usuario usuario, Reserva reserva, boolean estado, double costo) {
+        this.usuario = usuario;
+        this.reserva = reserva;
+        this.estado = estado;
+        this.costo = costo;
+    }
+
+    public GestionReserva(Long idGestionReserva, Usuario usuario, Reserva reserva, boolean estado, double costo) {
         this.idGestionReserva = idGestionReserva;
         this.usuario = usuario;
         this.reserva = reserva;
         this.estado = estado;
+        this.costo = costo;
     }
 
     public Long getIdGestionReserva() {
@@ -57,5 +66,11 @@ public class GestionReserva {
         this.estado = estado;
     }
 
+    public double getCosto() {
+        return costo;
+    }
 
+    public void setCosto(double costo) {
+        this.costo = costo;
+    }
 }
