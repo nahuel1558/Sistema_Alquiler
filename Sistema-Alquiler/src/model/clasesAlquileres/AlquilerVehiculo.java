@@ -61,11 +61,14 @@ public class AlquilerVehiculo implements IGestionAlquiler{
     }
 
     @Override
+    public void guardarCosto(){
+        gestionReserva.getReserva().setCosto(calcularCosto());
+    }
+
+    @Override
     public String verDescripcion() {
-        return "Vehículo: " +
-                vehiculo.getMarca() + "-" +
-                vehiculo.getModelo() + "-" +
-                vehiculo.getAlquilable().getDescripcion() + "-" +
-                vehiculo.getAlquilable().getTipoAlquilable().getTarifaBase();
+        return "Vehículo: " + vehiculo +
+                "Reserva: " + gestionReserva.getReserva() +
+                "Usuario: " + gestionReserva.getUsuario();
     }
 }
