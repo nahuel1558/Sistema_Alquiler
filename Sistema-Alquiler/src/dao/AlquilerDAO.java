@@ -2,8 +2,6 @@
 package dao;
 
 import config.DataBaseConnection;
-import model.clases.CategoriaAlquilable;
-import model.clasesAlquileres.AlquilerVehiculo;
 import model.clasesAlquileres.IGestionAlquiler;
 
 import java.sql.Connection;
@@ -17,11 +15,17 @@ public class AlquilerDAO implements IDAO<IGestionAlquiler> {
 
     private static volatile AlquilerDAO instance;
 
-    private static final String INSERT_SQL = "INSERT INTO alquileres(id_gestion_reserva, id_alquilable, categoria) VALUE(?,?);";
-    private static final String UPDATE_SQL = "UPDATE alquileres SET id_gestion_reserva=?, id_alquilable=?, categoria=? WHERE id=?";
+    private static final String INSERT_SQL = "INSERT INTO alquileres(id_gestion_reserva, id_alquilable) VALUE(?,?);";
+    private static final String UPDATE_SQL = "UPDATE alquileres SET id_gestion_reserva=?, id_alquilable=? WHERE id=?";
     private static final String SELECT_ALL_SQL = "SELECT * FROM alquileres";
     private static final String SELECT_BY_ID_SQL = "SELECT * FROM alquileres ";
     private static final String DELETE_SQL = "DELETE FROM alquileres WHERE id= ?";
+    private static final String SELECT_BY_ID_GESTION_RESERVA_SQL = "SELECT * FROM alquileres WHERE id_gestion_reserva = ?";
+    private static final String SELECT_ALL_BY_ESTADO_SQL = "SELECT a.*, g.*" +
+            "FROM alquileres a" +
+            "JOIN gestion_reserva g ON g.id = a.id_gestion_reserva" +
+            "JOIN usuario u ON u.id = g.id_usuario" +
+            "WHERE g.estado = true";
     //private static final String SELECT_LAST_ALQUILABLE_SQL = "SELECT * FROM alquileres ORDER BY id DESC LIMIT 1";
 
     private AlquilerDAO(){}
@@ -123,39 +127,32 @@ public class AlquilerDAO implements IDAO<IGestionAlquiler> {
             throw new RuntimeException("Error al eliminar por ID", e);
         }
     }
-    public List<IGestionAlquiler> listarAlquilerVehiculo(String categoria) {
-        List<IGestionAlquiler> iGestionAlquilerList = new ArrayList<>();
-        String sql = "SELECT * FROM alquileres WHERE categoria = ?";
-        try(Connection connection = getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql)){
-            statement.setString(1, categoria.toLowerCase());
-    try(ResultSet resultSet = statement.executeQuery()){
-        while(resultSet.next()){
-            IGestionAlquiler iGestionAlquiler = mapAlquilerVehiculo(resultSet);
-            iGestionAlquilerList.add(iGestionAlquiler);
-        }
-    }
+
+    public List<IGestionAlquiler> listarAlquileresEnCurso() {
+        List<IGestionAlquiler> alquileres = new ArrayList<>();
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(SELECT_ALL_BY_ESTADO_SQL);
+             ResultSet resultSet = statement.executeQuery()){
+                while (resultSet.next()) {
+                    IGestionAlquiler alquiler = mapGestionAlquiler(resultSet);
+                    alquileres.add(alquiler);
+                }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error al obtener los alquileres", e);
         }
-        return iGestionAlquilerList;
+
+        return alquileres;
     }
+
 
     private IGestionAlquiler mapGestionAlquiler(ResultSet resultSet) throws SQLException {
         IGestionAlquiler iGestionAlquiler = null;
 
         iGestionAlquiler.setId(resultSet.getLong("id"));
         iGestionAlquiler.setGestionReserva(GestionReservaDAO.getInstance().obtenerPorId(resultSet.getLong("id_gestion_reserva")));
-        //iGestionAlquiler.setAlquiler(resultSet.getLong("id_alquilable"));
-       // iGestionAlquiler.setAlquiler(resultSet.getString("categoria"));
+        iGestionAlquiler.getAlquiler().setAlquilable(AlquilableDAO.getInstance().obtenerPorId(resultSet.getLong("id_alquilable")));
         return iGestionAlquiler;
     }
 
-    private IGestionAlquiler mapAlquilerVehiculo(ResultSet resultSet) throws SQLException {
-        IGestionAlquiler iGestionAlquiler = new AlquilerVehiculo();
-        iGestionAlquiler.setId(resultSet.getLong("id"));
-        iGestionAlquiler.setGestionReserva(GestionReservaDAO.getInstance().obtenerPorId(resultSet.getLong("id_gestion_reserva")));
-        iGestionAlquiler.setAlquiler(VehiculoDAO.getInstance().obtenerPorId(resultSet.getLong("id_alquilable")));
-        return iGestionAlquiler;
-    }
 }

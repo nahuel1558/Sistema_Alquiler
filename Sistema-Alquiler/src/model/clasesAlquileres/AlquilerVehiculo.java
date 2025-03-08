@@ -6,7 +6,7 @@ import model.strategies.VehiculoEstrategia;
 
 public class AlquilerVehiculo implements IGestionAlquiler{
 
-    private Long idAlquilerVehiculo;
+    private Long id;
     private GestionReserva gestionReserva;
     private Vehiculo vehiculo;
 
@@ -18,20 +18,20 @@ public class AlquilerVehiculo implements IGestionAlquiler{
         this.vehiculo = vehiculo;
     }
 
-    public AlquilerVehiculo(Long idAlquilerVehiculo, GestionReserva gestionReserva, Vehiculo vehiculo) {
-        this.idAlquilerVehiculo = idAlquilerVehiculo;
+    public AlquilerVehiculo(Long id, GestionReserva gestionReserva, Vehiculo vehiculo) {
+        this.id = id;
         this.gestionReserva = gestionReserva;
         this.vehiculo = vehiculo;
     }
 
     @Override
     public Long getId() {
-        return idAlquilerVehiculo;
+        return id;
     }
 
     @Override
     public void setId(Long id) {
-        this.idAlquilerVehiculo = id;
+        this.id = id;
     }
 
     @Override
@@ -75,5 +75,19 @@ public class AlquilerVehiculo implements IGestionAlquiler{
         return "Vehículo: " + vehiculo +
                 "Reserva: " + gestionReserva.getReserva() +
                 "Usuario: " + gestionReserva.getUsuario();
+    }
+
+    @Override
+    public String toString() {
+        return "Alquiler N°:" + id +
+                "Usuario: " + gestionReserva.getUsuario().getNombre() + " " + gestionReserva.getUsuario().getApellido() +
+                ", Inicio: " + gestionReserva.getReserva().getFechaInicio() +
+                ", Fin: " + gestionReserva.getReserva().getFechaFin() +
+                ", Días Reserva: " + gestionReserva.getReserva().getDiasReservado() +
+                ", Costo: " + gestionReserva.getCosto() +
+                ", Categoría: " + vehiculo.getAlquilable().getCategoria().getNombreCategoria() +
+                ", Descripción: " +  vehiculo.getAlquilable().getDescripcion() +
+                ", Tipo: " +  vehiculo.getAlquilable().getTipoAlquilable().getNombreTipo() +
+                ", Tarifa Base: " +  vehiculo.getAlquilable().getTipoAlquilable().getTarifaBase();
     }
 }

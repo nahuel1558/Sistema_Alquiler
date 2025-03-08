@@ -33,6 +33,10 @@ public class AlquilableController{
         return alquilable;
     }
 
+    public boolean actualizar(Alquilable alquilable){
+        return alquilableDAO.actualizar(alquilable);
+    }
+
     public List<Alquilable> traerLista(){
         return alquilableDAO.listar();
     }
@@ -40,7 +44,6 @@ public class AlquilableController{
     public List<IAlquilable> traerListaDisponibles(CategoriaAlquilable categoriaAlquilable){
         List<Long> idAlquilables = traerListaIdAlquilableDisponible();
         IAlquilableController controller = controladoresPorCategoria.get(categoriaAlquilable.getNombreCategoria().toLowerCase());
-
         return controller.traerListaDisponible(idAlquilables);
     }
 
@@ -48,6 +51,7 @@ public class AlquilableController{
         IAlquilableController<?> controller = controladoresPorCategoria.get(categoriaAlquilable.getNombreCategoria().toLowerCase());
         return controller.traerFactory();
     }
+
     private Alquilable obtenerUltimoAlquilable(){
         return alquilableDAO.obtenerUltimoAlquilable();
     }

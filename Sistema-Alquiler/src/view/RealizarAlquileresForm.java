@@ -1,9 +1,11 @@
 package view;
 
+import controller.AlquilerController;
 import controller.alquilable.AlquilableController;
 import controller.alquilable.CategoriaAlquilableController;
 import controller.reservas.GestionReservaController;
 import controller.reservas.UsuarioController;
+import model.clases.Alquilable;
 import model.clases.CategoriaAlquilable;
 import model.clases.IAlquilable;
 import model.clases.Usuario;
@@ -40,11 +42,12 @@ public class RealizarAlquileresForm extends JFrame {
     private CategoriaAlquilableController categoriaAlquilableController;
     private AlquilableController alquilableController;
     private GestionReservaController gestionReservaController;
+    private AlquilerController alquilerController;
 
     public RealizarAlquileresForm(){
 
         initComponents();
-
+        alquilerController = new AlquilerController();
         usuarioController = new UsuarioController();
         categoriaAlquilableController = new CategoriaAlquilableController();
         alquilableController = new AlquilableController();
@@ -52,6 +55,7 @@ public class RealizarAlquileresForm extends JFrame {
 
         cargarUsuarios();
         cargarCategorias();
+        cargarAlquileresEnCurso();
 
 
         btnAlquilar.addActionListener(new ActionListener() {
@@ -73,12 +77,6 @@ public class RealizarAlquileresForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cerrarAlquiler();
-            }
-        });
-        cmbxUsuario.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cargarAlquileresEnCurso((Usuario) cmbxUsuario.getSelectedItem());
             }
         });
     }
@@ -110,10 +108,32 @@ public class RealizarAlquileresForm extends JFrame {
     }
 
     private void cerrarAlquiler(){
+        int selectedIndex = listAlquileres.getSelectedIndex();
+        if (selectedIndex == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione un alquiler para finalizar.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        List<IGestionAlquiler> alquileres = alquilerController.listarAlquileresEnCurso();
+        IGestionAlquiler alquilerSeleccionado = alquileres.get(selectedIndex);
 
+        alquilerSeleccionado.getGestionReserva().setEstado(false);
+        gestionReservaController.actualizar(alquilerSeleccionado.getGestionReserva());
+
+        Alquilable alquilable = alquilerSeleccionado.getAlquiler().getAlquilable();
+        alquilable.setDisponible(true);
+        alquilableController.actualizar(alquilable);
+
+        cargarAlquileresEnCurso();
+
+        JOptionPane.showMessageDialog(this, "Alquiler finalizado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
     }
-    private void cargarAlquileresEnCurso(Usuario usuario){
-
+    private void cargarAlquileresEnCurso(){
+        List<IGestionAlquiler> alquileres = alquilerController.listarAlquileresEnCurso();
+        DefaultListModel<String> modelLista = new DefaultListModel<>();
+        for(IGestionAlquiler alquiler : alquileres){
+            modelLista.addElement(alquiler.toString());
+        }
+        listAlquileres.setModel(modelLista);
     }
     private void cargarAlquilablesDisponibles(CategoriaAlquilable categoriaAlquilable){
         List<IAlquilable> alquilables = alquilableController.traerListaDisponibles(categoriaAlquilable);

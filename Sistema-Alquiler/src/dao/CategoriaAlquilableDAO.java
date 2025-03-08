@@ -11,8 +11,8 @@ public class CategoriaAlquilableDAO implements IDAO<CategoriaAlquilable> {
 
     private static volatile CategoriaAlquilableDAO instance;
 
-    private static final String INSERT_SQL = "INSERT INTO categorias_alquilable(id, nombre_categoria) VALUE(?,?);";
-    private static final String UPDATE_SQL = "UPDATE categorias_alquilable SET nombre_categoria=? WHERE id=?";
+    private static final String INSERT_SQL = "INSERT INTO categorias_alquilable(id, nombre) VALUE(?,?);";
+    private static final String UPDATE_SQL = "UPDATE categorias_alquilable SET nombre=? WHERE id=?";
     private static final String SELECT_ALL_SQL = "SELECT * FROM categorias_alquilable";
     private static final String SELECT_BY_ID_SQL = "SELECT * FROM categorias_alquilable WHERE id = ?";
     private static final String DELETE_SQL = "DELETE FROM categorias_alquilable WHERE id= ?";
@@ -118,7 +118,7 @@ public class CategoriaAlquilableDAO implements IDAO<CategoriaAlquilable> {
         CategoriaAlquilable categoria = new CategoriaAlquilable();
 
         categoria.setIdCategoria(resultSet.getLong("id"));
-        categoria.setNombreCategoria(resultSet.getString("nombre_categoria"));
+        categoria.setNombreCategoria(resultSet.getString("nombre"));
 
         return categoria;
     }
