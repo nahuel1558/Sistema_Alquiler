@@ -70,8 +70,9 @@ public class RealizarAlquileresForm extends JFrame {
         cmbxTipoAlquilable.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CategoriaAlquilable categoriaSeleccionada = (CategoriaAlquilable) cmbxTipoAlquilable.getSelectedItem();
-                cargarAlquilablesDisponibles(categoriaSeleccionada);
+                Long idCategoria = obtenerIdCategoriaCmbx();
+                cargarAlquilablesDisponibles(idCategoria);
+                cargarAlquileresEnCurso(idCategoria);
             }
         });
 
@@ -96,6 +97,10 @@ public class RealizarAlquileresForm extends JFrame {
         add(panel1);
     }
 
+    private Long obtenerIdCategoriaCmbx(){
+        CategoriaAlquilable categoriaSeleccionada = (CategoriaAlquilable) cmbxTipoAlquilable.getSelectedItem();
+        return categoriaSeleccionada.getIdCategoria();
+    }
     private void cerrarAlquilerForm() {
         // Cerrar el formulario actual
         NavegacionForms.volverAlFormAnterior();
@@ -117,7 +122,7 @@ public class RealizarAlquileresForm extends JFrame {
     }
 
     private IAlquilableController obtenerControladora(String nombre) {
-        return alquilableController.obtenerControladora(nombre);
+        return alquilerController.obtenerControladora(nombre);
     }
 
     private void actualizarCosto(IGestionAlquiler alquiler){
@@ -147,6 +152,7 @@ public class RealizarAlquileresForm extends JFrame {
     private void cargarAlquileresEnCurso(){
 
         List<IGestionAlquiler> alquileres = alquilerController.listarAlquileresEnCursoVehiculo();
+
         DefaultListModel<IGestionAlquiler> modelLista = new DefaultListModel<>();
         for(IGestionAlquiler alquiler : alquileres){
             modelLista.addElement(alquiler);
@@ -154,8 +160,8 @@ public class RealizarAlquileresForm extends JFrame {
         listAlquileres.setModel(modelLista);
     }
 
-    private void cargarAlquilablesDisponibles(CategoriaAlquilable categoriaAlquilable){
-        List<IAlquilable> alquilables = alquilableController.traerListaDisponibles(categoriaAlquilable);
+    private void cargarAlquilablesDisponibles(Long idCategoria){
+        List<IAlquilable> alquilables = alquilerController.listarAlquilablesDisponibles(idCategoria);
         DefaultListModel<IAlquilable> modelLista= new DefaultListModel<>();
         for(IAlquilable alquilable : alquilables){
             modelLista.addElement(alquilable);

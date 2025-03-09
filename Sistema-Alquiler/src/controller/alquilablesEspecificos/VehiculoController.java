@@ -15,11 +15,13 @@ public class VehiculoController implements IAlquilableController<Vehiculo> {
 
     public VehiculoController(){
         this.vehiculoDAO = VehiculoDAO.getInstance();
+        this.alquilableController = new AlquilableController();
     }
 
     public boolean crearVehiculo(CategoriaAlquilable categoriaAlquilable, TipoAlquilable tipoAlquilable,
                                  boolean disponible, String descripcion, String marca, String modelo){
-        Alquilable alquilable = alquilableController.crearAlquilable(categoriaAlquilable, tipoAlquilable, descripcion, disponible);
+        Alquilable alquilable = alquilableController.traerAlquilable(tipoAlquilable, descripcion, disponible);
+        alquilable.setCategoria(categoriaAlquilable);
         return vehiculoDAO.crear(new Vehiculo(alquilable, marca, modelo));
     }
 

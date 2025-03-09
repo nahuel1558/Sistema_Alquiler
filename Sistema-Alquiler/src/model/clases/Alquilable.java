@@ -11,6 +11,12 @@ public class Alquilable{
     public Alquilable() {
     }
 
+    public Alquilable(TipoAlquilable tipoAlquilable, String descripcion, boolean disponible) {
+        this.tipoAlquilable = tipoAlquilable;
+        this.descripcion = descripcion;
+        this.disponible = disponible;
+    }
+
     public Alquilable(CategoriaAlquilable categoria, TipoAlquilable tipoAlquilable, String descripcion, boolean disponible) {
         this.categoria = categoria;
         this.tipoAlquilable = tipoAlquilable;

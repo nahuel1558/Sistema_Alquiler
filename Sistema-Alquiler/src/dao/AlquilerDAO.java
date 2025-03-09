@@ -132,20 +132,18 @@ public class AlquilerDAO implements IDAO<IGestionAlquiler> {
     }
 
 
-    public List<IGestionAlquiler> listarAlquileresActivosVehiculos(Long idCategoria){
+    public List<IGestionAlquiler> listarAlquileresActivosVehiculos(){
         List<IGestionAlquiler> alquileres = new ArrayList<>();
         String sql = "SELECT a.* FROM alquileres a " +
                 "JOIN gestion_reservas g ON g.id = a.id_gestion_reserva" +
                 "JOIN alquilables al ON al.id = a.id_alquilable" +
-                "WHERE g.estado = true AND al.id_categoria_alquilable = ?";
+                "WHERE g.estado = true";
         try (Connection connection = getConnection();
-        PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setLong(1, idCategoria);
-            try (ResultSet resultSet = statement.executeQuery()) {
+        PreparedStatement statement = connection.prepareStatement(sql);
+        ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     IGestionAlquiler alquiler = mapGestionAlquilerVehiculo(resultSet);
                     alquileres.add(alquiler);
-                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
