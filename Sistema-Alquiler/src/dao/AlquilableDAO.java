@@ -17,7 +17,7 @@ public class AlquilableDAO implements IDAO<Alquilable>{
 
     private static volatile AlquilableDAO instance;
 
-    private static final String INSERT_SQL = "INSERT INTO alquilables(id_categoria, id_tipo, descripcion, disponible) VALUE(?,?,?,?);";
+    private static final String INSERT_SQL = "INSERT INTO alquilables(id_categoria_alquilable, id_tipo_alquilable, descripcion, disponible) VALUE(?,?,?,?);";
     private static final String UPDATE_SQL = "UPDATE alquilables SET disponible=?, descripcion=? WHERE id=?";
     private static final String SELECT_ALL_SQL = "SELECT * FROM alquilables";
     private static final String SELECT_BY_ID_SQL = "SELECT * FROM alquilables WHERE id = ?";
@@ -164,8 +164,8 @@ public class AlquilableDAO implements IDAO<Alquilable>{
         Alquilable alquilable = new Alquilable();
 
         alquilable.setIdAlquilable(resultSet.getLong("id"));
-        alquilable.setCategoria(CategoriaAlquilableDAO.getInstance().obtenerPorId(resultSet.getLong("id_categoria")));
-        alquilable.setTipoAlquilable(TipoAlquilableDAO.getInstance().obtenerPorId(resultSet.getLong("id_tipo")));
+        alquilable.setCategoria(CategoriaAlquilableDAO.getInstance().obtenerPorId(resultSet.getLong("id_categoria_alquilable")));
+        alquilable.setTipoAlquilable(TipoAlquilableDAO.getInstance().obtenerPorId(resultSet.getLong("id_tipo_alquilable")));
         alquilable.setDescripcion(resultSet.getString("descripcion"));
         alquilable.setDisponible(resultSet.getBoolean("disponible"));
 

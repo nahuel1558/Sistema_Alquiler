@@ -22,12 +22,12 @@ public class AlquilableController{
     public AlquilableController(){
         this.alquilableDAO = AlquilableDAO.getInstance();
         controladoresPorCategoria = new HashMap<>();
-        controladoresPorCategoria.put("vehiculo", new VehiculoController());
-        //controladoresPorCategoria.put("herramienta", new HerramientaController());
+        controladoresPorCategoria.put("vehiculos", new VehiculoController());
+        //controladoresPorCategoria.put("herramientas", new HerramientaController());
     }
 
     public Alquilable crearAlquilable(CategoriaAlquilable categoriaAlquilable, TipoAlquilable tipoAlquilable,
-                                       String descripcion, boolean disponible){
+                                             String descripcion, boolean disponible){
         alquilableDAO.crear(new Alquilable(categoriaAlquilable, tipoAlquilable, descripcion, disponible));
         Alquilable alquilable = obtenerUltimoAlquilable();
         return alquilable;
@@ -50,6 +50,9 @@ public class AlquilableController{
     public AlquilableFactory obtenerFactory(CategoriaAlquilable categoriaAlquilable){
         IAlquilableController<?> controller = controladoresPorCategoria.get(categoriaAlquilable.getNombreCategoria().toLowerCase());
         return controller.traerFactory();
+    }
+    public IAlquilableController obtenerControladora(String nombre){
+        return controladoresPorCategoria.get(nombre.toLowerCase());
     }
 
     private Alquilable obtenerUltimoAlquilable(){

@@ -16,8 +16,8 @@ public class AlquilerController {
     }
 
 
-    public List<IGestionAlquiler> listarAlquileresEnCurso(){
-        return alquilerDAO.listarAlquileresEnCurso();
+    public List<IGestionAlquiler> listarAlquileresEnCursoVehiculo(Long idCategoria){
+        return alquilerDAO.listarAlquileresActivosVehiculos(idCategoria);
     }
 
 }

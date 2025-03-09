@@ -2,6 +2,8 @@
 package dao;
 
 import config.DataBaseConnection;
+import model.clases.IAlquilable;
+import model.clasesAlquileres.AlquilerVehiculo;
 import model.clasesAlquileres.IGestionAlquiler;
 
 import java.sql.Connection;
@@ -21,11 +23,12 @@ public class AlquilerDAO implements IDAO<IGestionAlquiler> {
     private static final String SELECT_BY_ID_SQL = "SELECT * FROM alquileres ";
     private static final String DELETE_SQL = "DELETE FROM alquileres WHERE id= ?";
     private static final String SELECT_BY_ID_GESTION_RESERVA_SQL = "SELECT * FROM alquileres WHERE id_gestion_reserva = ?";
-    private static final String SELECT_ALL_BY_ESTADO_SQL = "SELECT a.*, g.*" +
-            "FROM alquileres a" +
-            "JOIN gestion_reserva g ON g.id = a.id_gestion_reserva" +
-            "JOIN usuario u ON u.id = g.id_usuario" +
-            "WHERE g.estado = true";
+    private static final String SELECT_ALL_BY_ESTADO_SQL = "SELECT a.*, g.* " +
+            "FROM alquileres a " +
+            "JOIN gestion_reservas g ON g.id = a.id_gestion_reserva " +
+            "JOIN usuarios u ON u.id = g.id_usuario " +
+            "JOIN alquilables al ON al.id = a.id_alquilable " +
+            "WHERE g.estado = true AND al.id_categoria_alquilable = ?";
     //private static final String SELECT_LAST_ALQUILABLE_SQL = "SELECT * FROM alquileres ORDER BY id DESC LIMIT 1";
 
     private AlquilerDAO(){}
@@ -128,23 +131,36 @@ public class AlquilerDAO implements IDAO<IGestionAlquiler> {
         }
     }
 
-    public List<IGestionAlquiler> listarAlquileresEnCurso() {
-        List<IGestionAlquiler> alquileres = new ArrayList<>();
 
+    public List<IGestionAlquiler> listarAlquileresActivosVehiculos(Long idCategoria){
+        List<IGestionAlquiler> alquileres = new ArrayList<>();
+        String sql = "SELECT a.* FROM alquileres a " +
+                "JOIN gestion_reservas g ON g.id = a.id_gestion_reserva" +
+                "JOIN alquilables al ON al.id = a.id_alquilable" +
+                "WHERE g.estado = true AND al.id_categoria_alquilable = ?";
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(SELECT_ALL_BY_ESTADO_SQL);
-             ResultSet resultSet = statement.executeQuery()){
+        PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, idCategoria);
+            try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    IGestionAlquiler alquiler = mapGestionAlquiler(resultSet);
+                    IGestionAlquiler alquiler = mapGestionAlquilerVehiculo(resultSet);
                     alquileres.add(alquiler);
                 }
+            }
         } catch (SQLException e) {
-            throw new RuntimeException("Error al obtener los alquileres", e);
+            throw new RuntimeException(e);
         }
-
         return alquileres;
     }
+    private IGestionAlquiler mapGestionAlquilerVehiculo(ResultSet resultSet) throws SQLException {
+        IGestionAlquiler iGestionAlquiler = new AlquilerVehiculo();
 
+        iGestionAlquiler.setId(resultSet.getLong("id"));
+        iGestionAlquiler.setGestionReserva(GestionReservaDAO.getInstance().obtenerPorId(resultSet.getLong("id_gestion_reserva")));
+        iGestionAlquiler.setAlquiler(VehiculoDAO.getInstance().obtenerByIdAlquilable(resultSet.getLong("id_alquilable")));
+
+        return iGestionAlquiler;
+    }
 
     private IGestionAlquiler mapGestionAlquiler(ResultSet resultSet) throws SQLException {
         IGestionAlquiler iGestionAlquiler = null;

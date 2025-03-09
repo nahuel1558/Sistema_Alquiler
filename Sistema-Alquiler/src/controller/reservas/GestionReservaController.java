@@ -13,12 +13,14 @@ public class GestionReservaController {
     private ReservaController reservaController;
     public GestionReservaController(){
         this.gestionReservaDAO = GestionReservaDAO.getInstance();
+        this.reservaController = new ReservaController();
     }
 
     public GestionReserva crearGestionReserva(Usuario usuario, int diasReserva){
         Reserva reserva = reservaController.crearReserva(diasReserva);
         boolean estado = true;
-        gestionReservaDAO.crear(new GestionReserva(usuario, reserva, estado));
+        double costo = 0.0;
+        gestionReservaDAO.crear(new GestionReserva(usuario, reserva, estado, costo));
     return obtenerUltimaGestionReserva();
     }
 

@@ -14,8 +14,8 @@ public class TipoAlquilableDAO implements IDAO<TipoAlquilable> {
 
     private static volatile TipoAlquilableDAO instance;
 
-    private static final String INSERT_SQL = "INSERT INTO tipos_alquilable(nombre_tipo, tarifa_base) VALUE(?,?);";
-    private static final String UPDATE_SQL = "UPDATE tipos_alquilable SET nombre_tipo=?, tarifa_base=? WHERE id=?";
+    private static final String INSERT_SQL = "INSERT INTO tipos_alquilable(nombre, tarifa_base) VALUE(?,?);";
+    private static final String UPDATE_SQL = "UPDATE tipos_alquilable SET nombre=?, tarifa_base=? WHERE id=?";
     private static final String SELECT_ALL_SQL = "SELECT * FROM tipos_alquilable";
     private static final String SELECT_BY_ID_SQL = "SELECT * FROM tipos_alquilable WHERE id = ?";
     private static final String DELETE_SQL = "DELETE FROM tipos_alquilable WHERE id= ?";
@@ -123,7 +123,7 @@ public class TipoAlquilableDAO implements IDAO<TipoAlquilable> {
         TipoAlquilable tipoAlquilable = new TipoAlquilable();
 
         tipoAlquilable.setIdTipoAlquilable(resultSet.getLong("id"));
-        tipoAlquilable.setNombreTipo(resultSet.getString("nombre_tipo"));
+        tipoAlquilable.setNombreTipo(resultSet.getString("nombre"));
         tipoAlquilable.setTarifaBase(resultSet.getDouble("tarifa_base"));
 
         return tipoAlquilable;

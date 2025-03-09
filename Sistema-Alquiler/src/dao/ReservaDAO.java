@@ -42,9 +42,12 @@ public class ReservaDAO implements IDAO<Reserva> {
         try(Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(INSERT_RESERVA_SQL)) {
 
+            java.sql.Date fechaInicioSQL = new java.sql.Date(object.getFechaInicio().getTime());
+            java.sql.Date fechaFinSQL = new java.sql.Date(object.getFechaFin().getTime());
+
             statement.setInt(1, object.getDiasReservado());
-            statement.setDate(2, (Date) object.getFechaInicio());
-            statement.setDate(3,(Date) object.getFechaFin());
+            statement.setDate(2, fechaInicioSQL);
+            statement.setDate(3,fechaFinSQL);
 
             Integer lineaAfectada = statement.executeUpdate();
             return lineaAfectada > 0;
@@ -142,8 +145,11 @@ public class ReservaDAO implements IDAO<Reserva> {
 
         reserva.setIdReserva(resultSet.getLong("id"));
         reserva.setDiasReservado(resultSet.getInt("dias_reservado"));
-        reserva.setFechaInicio(resultSet.getDate("fecha_inicio"));
-        reserva.setFechaFin(resultSet.getDate("fecha_fin"));
+        java.sql.Date fechaInicioSQL = resultSet.getDate("fecha_inicio");
+        java.sql.Date fechaFinSQL = resultSet.getDate("fecha_fin");
+
+        reserva.setFechaInicio(new Date(fechaInicioSQL.getTime()));  // java.util.Date
+        reserva.setFechaFin(new Date(fechaFinSQL.getTime()));
 
         return reserva;
     }

@@ -24,6 +24,11 @@ public class VehiculoController implements IAlquilableController<Vehiculo> {
     }
 
     @Override
+    public Vehiculo obtenerById(Long id) {
+        return vehiculoDAO.obtenerPorId(id);
+    }
+
+    @Override
     public List<Vehiculo> traerListaDisponible(List<Long> idAlquilable) {
         return vehiculoDAO.traerListaVehiculoDisponible(idAlquilable);
     }

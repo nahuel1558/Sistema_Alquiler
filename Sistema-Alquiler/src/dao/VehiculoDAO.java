@@ -13,7 +13,7 @@ import java.util.List;
 public class VehiculoDAO implements IDAO<Vehiculo>{
     private static volatile VehiculoDAO instance;
 
-    private static final String INSERT_SQL = "INSERT INTO vehiculos(alquilable_id, marca, modelo) VALUE(?,?,?);";
+    private static final String INSERT_SQL = "INSERT INTO vehiculos(id_alquilable, marca, modelo) VALUE(?,?,?);";
     private static final String UPDATE_SQL = "UPDATE vehiculos SET marca=?, modelo=? WHERE id=?";
     private static final String SELECT_ALL_SQL = "SELECT FROM vehiculos";
     private static final String SELECT_BY_ID_SQL = "SELECT * FROM vehiculos WHERE id = ?";
@@ -143,22 +143,32 @@ public class VehiculoDAO implements IDAO<Vehiculo>{
 
     public List<Vehiculo> listarByIdAlquiable(List<Long> idAlquilable){
         List<Vehiculo> vehiculoList = new ArrayList<>();
+
+        for (Long id : idAlquilable) {
+            Vehiculo vehiculo = obtenerByIdAlquilable(id);
+            if (vehiculo != null) {
+                vehiculoList.add(vehiculo);
+            }
+        }
+        return vehiculoList;
+    }
+
+    public Vehiculo obtenerByIdAlquilable(Long idAlquilable){
+        Vehiculo vehiculo = null;
+
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID_ALQUILABLE_SQL)) {
-            for(Long id : idAlquilable){
-                statement.setLong(1, id);
-            }
+            statement.setLong(1, idAlquilable);
             try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    Vehiculo vehiculo = mapVehiculo(resultSet);
-                    vehiculoList.add(vehiculo);
+                if (resultSet.next()) {
+                    vehiculo = mapVehiculo(resultSet);
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Error", e);
+            throw new RuntimeException("Error al obtener por ID", e);
         }
 
-        return vehiculoList;
+        return vehiculo;
     }
 
     private Vehiculo mapVehiculo(ResultSet resultSet) throws SQLException {

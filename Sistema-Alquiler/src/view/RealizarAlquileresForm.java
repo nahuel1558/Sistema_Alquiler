@@ -3,6 +3,7 @@ package view;
 import controller.AlquilerController;
 import controller.alquilable.AlquilableController;
 import controller.alquilable.CategoriaAlquilableController;
+import controller.alquilablesEspecificos.IAlquilableController;
 import controller.reservas.GestionReservaController;
 import controller.reservas.UsuarioController;
 import model.clases.Alquilable;
@@ -33,10 +34,11 @@ public class RealizarAlquileresForm extends JFrame {
     private JLabel lblAlquilados;
     private JSpinner spnDiasReserva;
     private JButton btnAlquilar;
-    private JButton bntCancelarReserva;
+    private JButton btnEliminarAlquiler;
     private JButton btnFinalizarAlquiler;
     private JComboBox cmbxUsuario;
     private JLabel lblCliente;
+    private JButton btnVolver;
 
     private UsuarioController usuarioController;
     private CategoriaAlquilableController categoriaAlquilableController;
@@ -79,12 +81,19 @@ public class RealizarAlquileresForm extends JFrame {
                 cerrarAlquiler();
             }
         });
+        btnVolver.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
     }
     private void initComponents(){
         setTitle("Realizar Alquileres");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Cierra solo este formulario
         setLocationRelativeTo(null);
+        add(panel1);
     }
 
     private void cerrarAlquilerForm() {
@@ -94,13 +103,21 @@ public class RealizarAlquileresForm extends JFrame {
     private void realizarAlquialer(){
         CategoriaAlquilable categoriaSeleccionada = (CategoriaAlquilable) cmbxTipoAlquilable.getSelectedItem();
         AlquilableFactory factory = alquilableController.obtenerFactory(categoriaSeleccionada);
+        IAlquilableController controller = obtenerControladora(categoriaSeleccionada.getNombreCategoria());
+        IAlquilable objetoAlquilar = (IAlquilable) listAlquilables.getSelectedValue();
+
         IGestionAlquiler alquiler = factory.realizarAlquiler(
                 gestionReservaController.crearGestionReserva((Usuario) cmbxUsuario.getSelectedItem(),
                 (int) spnDiasReserva.getValue()),
-                (IAlquilable) listAlquilables.getSelectedValue());
+                controller.obtenerById(objetoAlquilar.getId()));
         actualizarCosto(alquiler);
         JOptionPane.showMessageDialog(this.panel1, "Alquiler realizado con éxito.\nCosto: " +
                 alquiler.getGestionReserva().getCosto(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        cargarAlquileresEnCurso();
+    }
+
+    private IAlquilableController obtenerControladora(String nombre) {
+        return alquilableController.obtenerControladora(nombre);
     }
 
     private void actualizarCosto(IGestionAlquiler alquiler){
@@ -128,13 +145,15 @@ public class RealizarAlquileresForm extends JFrame {
         JOptionPane.showMessageDialog(this, "Alquiler finalizado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
     }
     private void cargarAlquileresEnCurso(){
-        List<IGestionAlquiler> alquileres = alquilerController.listarAlquileresEnCurso();
-        DefaultListModel<String> modelLista = new DefaultListModel<>();
+
+        List<IGestionAlquiler> alquileres = alquilerController.listarAlquileresEnCursoVehiculo();
+        DefaultListModel<IGestionAlquiler> modelLista = new DefaultListModel<>();
         for(IGestionAlquiler alquiler : alquileres){
-            modelLista.addElement(alquiler.toString());
+            modelLista.addElement(alquiler);
         }
         listAlquileres.setModel(modelLista);
     }
+
     private void cargarAlquilablesDisponibles(CategoriaAlquilable categoriaAlquilable){
         List<IAlquilable> alquilables = alquilableController.traerListaDisponibles(categoriaAlquilable);
         DefaultListModel<IAlquilable> modelLista= new DefaultListModel<>();

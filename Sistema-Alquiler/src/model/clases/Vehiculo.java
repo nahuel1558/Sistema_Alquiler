@@ -59,4 +59,15 @@ public class Vehiculo implements IAlquilable {
     public void setAlquilable(Alquilable alquilable) {
         this.alquilable = alquilable;
     }
+
+    @Override
+    public String toString(){
+        return idVehiculo + " - " +
+                marca + " - " +
+                modelo + " - " +
+                alquilable.getTipoAlquilable().getNombreTipo() + " - " +
+                alquilable.getTipoAlquilable().getTarifaBase() + " - " +
+                alquilable.getDescripcion();
+
+    }
 }
