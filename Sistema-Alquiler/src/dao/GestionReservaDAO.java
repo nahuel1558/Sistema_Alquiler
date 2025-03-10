@@ -1,8 +1,6 @@
 package dao;
 
 import config.DataBaseConnection;
-import model.clases.Alquilable;
-import model.clases.Usuario;
 import model.clasesAlquileres.GestionReserva;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -40,7 +40,5 @@ public class InicioForm extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         add(panel1);
-
-
     }
 }

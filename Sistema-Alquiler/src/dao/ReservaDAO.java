@@ -1,7 +1,6 @@
 package dao;
 
 import config.DataBaseConnection;
-import model.clases.Alquilable;
 import model.clases.Reserva;
 
 import java.sql.*;
@@ -148,7 +147,7 @@ public class ReservaDAO implements IDAO<Reserva> {
         java.sql.Date fechaInicioSQL = resultSet.getDate("fecha_inicio");
         java.sql.Date fechaFinSQL = resultSet.getDate("fecha_fin");
 
-        reserva.setFechaInicio(new Date(fechaInicioSQL.getTime()));  // java.util.Date
+        reserva.setFechaInicio(new Date(fechaInicioSQL.getTime()));
         reserva.setFechaFin(new Date(fechaFinSQL.getTime()));
 
         return reserva;

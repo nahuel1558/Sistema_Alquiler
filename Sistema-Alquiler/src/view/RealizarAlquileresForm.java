@@ -204,7 +204,7 @@ public class RealizarAlquileresForm extends JFrame {
     }
 
     private void cargarAlquileresEnCursoHerramienta(){
-
+/*
         List<IGestionAlquiler> alquileres = alquilerController.listarAlquileresEnCursoHerramientas();
         System.out.println("Número de alquileres en curso: " + alquileres.size());
         DefaultListModel<IGestionAlquiler> modelLista = new DefaultListModel<>();
@@ -212,6 +212,8 @@ public class RealizarAlquileresForm extends JFrame {
             modelLista.addElement(alquiler);
         }
         listAlquileresVehiculos.setModel(modelLista);
+
+ */
     }
 
     private void cerrarAlquilerHerramienta(){
@@ -252,7 +254,7 @@ public class RealizarAlquileresForm extends JFrame {
     // Metodos de Vehiculos
 
     private void cargarAlquileresEnCursoVehiculo(){
-
+    /*
         List<IGestionAlquiler> alquileres = alquilerController.listarAlquileresEnCursoVehiculo();
         System.out.println("Número de alquileres en curso: " + alquileres.size());
         DefaultListModel<IGestionAlquiler> modelLista = new DefaultListModel<>();
@@ -260,6 +262,7 @@ public class RealizarAlquileresForm extends JFrame {
             modelLista.addElement(alquiler);
         }
         listAlquileresVehiculos.setModel(modelLista);
+        */
     }
 
     private void cerrarAlquilerVehiculo(){

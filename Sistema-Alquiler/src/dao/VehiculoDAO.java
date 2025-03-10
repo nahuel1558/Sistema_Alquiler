@@ -2,8 +2,6 @@ package dao;
 
 import config.DataBaseConnection;
 import model.clases.Vehiculo;
-import model.clasesAlquileres.GestionReserva;
-import model.clasesAlquileres.IGestionAlquiler;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,7 +11,7 @@ import java.util.List;
 public class VehiculoDAO implements IDAO<Vehiculo>{
     private static volatile VehiculoDAO instance;
 
-    private static final String INSERT_SQL = "INSERT INTO vehiculos(id_alquilable, marca, modelo) VALUE(?,?,?);";
+    private static final String INSERT_SQL = "INSERT INTO vehiculos(id_alquilable, marca, modelo, id_categoria_alquilable) VALUE(?,?,?,?);";
     private static final String UPDATE_SQL = "UPDATE vehiculos SET marca=?, modelo=? WHERE id=?";
     private static final String SELECT_ALL_SQL = "SELECT * FROM vehiculos";
     private static final String SELECT_BY_ID_SQL = "SELECT * FROM vehiculos WHERE id = ?";
@@ -45,6 +43,7 @@ public class VehiculoDAO implements IDAO<Vehiculo>{
             statement.setLong(1, object.getAlquilable().getIdAlquilable());
             statement.setString(2, object.getMarca());
             statement.setString(3, object.getModelo());
+            statement.setLong(4, object.getAlquilable().getCategoria().getIdCategoria());
 
             Integer lineaAfectada = statement.executeUpdate();
             return lineaAfectada > 0;

@@ -1,7 +1,6 @@
 package dao;
 
 import config.DataBaseConnection;
-import model.clases.Alquilable;
 import model.clases.TipoAlquilable;
 
 import java.sql.Connection;

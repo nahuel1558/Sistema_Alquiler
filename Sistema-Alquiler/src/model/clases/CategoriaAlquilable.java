@@ -31,6 +31,7 @@ public class CategoriaAlquilable {
     public void setNombreCategoria(String nombreCategoria) {
         this.nombreCategoria = nombreCategoria;
     }
+
     @Override
     public String toString(){
         return idCategoria + " - " + nombreCategoria;

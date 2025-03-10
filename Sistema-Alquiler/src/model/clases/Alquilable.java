@@ -7,7 +7,6 @@ public class Alquilable{
     private String descripcion;
     private boolean disponible;
 
-
     public Alquilable() {
     }
 
