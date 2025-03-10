@@ -12,6 +12,11 @@ public class TipoAlquilable {
     public TipoAlquilable() {
     }
 
+    public TipoAlquilable(String nombreTipo, double tarifaBase) {
+        this.nombreTipo = nombreTipo;
+        this.tarifaBase = tarifaBase;
+    }
+
     public TipoAlquilable(Long idTipoAlquilable, String nombreTipo, double tarifaBase) {
         this.idTipoAlquilable = idTipoAlquilable;
         this.nombreTipo = nombreTipo;

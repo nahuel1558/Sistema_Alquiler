@@ -1,27 +1,22 @@
 package model.clases;
 
-
-public class Vehiculo implements IAlquilable {
-
-    private Long idVehiculo;
+public class Herramienta implements IAlquilable{
+    private Long id;
     private Alquilable alquilable;
     private String marca;
-    private String modelo;
 
-    public Vehiculo() {
+    public Herramienta() {
     }
 
-    public Vehiculo(Alquilable alquilable, String marca, String modelo) {
+    public Herramienta(Alquilable alquilable, String marca) {
         this.alquilable = alquilable;
         this.marca = marca;
-        this.modelo = modelo;
     }
 
-    public Vehiculo(Long idVehiculo, Alquilable alquilable, String marca, String modelo) {
-        this.idVehiculo = idVehiculo;
+    public Herramienta(Long id, Alquilable alquilable, String marca) {
+        this.id = id;
         this.alquilable = alquilable;
         this.marca = marca;
-        this.modelo = modelo;
     }
 
     public String getMarca() {
@@ -32,22 +27,14 @@ public class Vehiculo implements IAlquilable {
         this.marca = marca;
     }
 
-    public String getModelo() {
-        return modelo;
-    }
-
-    public void setModelo(String modelo) {
-        this.modelo = modelo;
-    }
-
     @Override
     public Long getId() {
-        return idVehiculo;
+        return id;
     }
 
     @Override
     public void setId(Long id) {
-        this.idVehiculo = id;
+this.id = id;
     }
 
     @Override
@@ -57,19 +44,16 @@ public class Vehiculo implements IAlquilable {
 
     @Override
     public void setAlquilable(Alquilable alquilable) {
-        this.alquilable = alquilable;
+    this.alquilable = alquilable;
     }
 
     @Override
     public String toString(){
-        return idVehiculo + " - " +
+        return id + " - " +
                 marca + " - " +
-                modelo + " - " +
                 alquilable.getTipoAlquilable().getNombreTipo() + " - " +
                 alquilable.getTipoAlquilable().getTarifaBase() + " - " +
                 alquilable.getDescripcion() + " - " +
                 alquilable.isDisponible();
-
-
     }
 }

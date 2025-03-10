@@ -12,6 +12,10 @@ public class CategoriaAlquilableController {
         this.categoriaAlquilableDAO = CategoriaAlquilableDAO.getInstance();
     }
 
+    public CategoriaAlquilable traerCategoriaById(Long idCategoria){
+        return categoriaAlquilableDAO.obtenerPorId(idCategoria);
+    }
+
     public List<CategoriaAlquilable> traerLista(){
         return categoriaAlquilableDAO.listar();
     }

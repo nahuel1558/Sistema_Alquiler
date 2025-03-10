@@ -1,6 +1,7 @@
 package dao;
 
 import config.DataBaseConnection;
+import model.clases.Alquilable;
 import model.clases.TipoAlquilable;
 
 import java.sql.Connection;
@@ -19,6 +20,8 @@ public class TipoAlquilableDAO implements IDAO<TipoAlquilable> {
     private static final String SELECT_ALL_SQL = "SELECT * FROM tipos_alquilable";
     private static final String SELECT_BY_ID_SQL = "SELECT * FROM tipos_alquilable WHERE id = ?";
     private static final String DELETE_SQL = "DELETE FROM tipos_alquilable WHERE id= ?";
+    private static final String SELECT_LAST_TIPO_ALQUILABLE_SQL = "SELECT * FROM tipos_alquilable ORDER BY id DESC LIMIT 1";
+
 
     private TipoAlquilableDAO(){}
 
@@ -117,6 +120,24 @@ public class TipoAlquilableDAO implements IDAO<TipoAlquilable> {
         } catch (SQLException e) {
             throw new RuntimeException("Error al eliminar por ID", e);
         }
+    }
+
+    public TipoAlquilable obtenerUltimoTipoAlquilable() {
+        TipoAlquilable tipoAlquilable = null;
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(SELECT_LAST_TIPO_ALQUILABLE_SQL);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            if (resultSet.next()) {
+                tipoAlquilable = mapTipoAlquilable(resultSet);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al obtener el último tipo alquilable", e);
+        }
+
+        return tipoAlquilable;
     }
 
     private TipoAlquilable mapTipoAlquilable(ResultSet resultSet) throws SQLException {

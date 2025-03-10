@@ -11,6 +11,7 @@ import java.util.List;
 public class VehiculoController implements IAlquilableController<Vehiculo> {
 
     private AlquilableController alquilableController;
+
     private final VehiculoDAO vehiculoDAO;
 
     public VehiculoController(){
@@ -18,11 +19,18 @@ public class VehiculoController implements IAlquilableController<Vehiculo> {
         this.alquilableController = new AlquilableController();
     }
 
-    public boolean crearVehiculo(CategoriaAlquilable categoriaAlquilable, TipoAlquilable tipoAlquilable,
+    public boolean crearVehiculo(Long idCategoria, String nombre, double tarifaBase,
                                  boolean disponible, String descripcion, String marca, String modelo){
-        Alquilable alquilable = alquilableController.traerAlquilable(tipoAlquilable, descripcion, disponible);
-        alquilable.setCategoria(categoriaAlquilable);
+        Alquilable alquilable = alquilableController.traerAlquilable(idCategoria, nombre, tarifaBase, descripcion, disponible);
         return vehiculoDAO.crear(new Vehiculo(alquilable, marca, modelo));
+    }
+
+    public void eliminarPorId(Long idVehiculo){
+        vehiculoDAO.eliminarPorId(idVehiculo);
+    }
+
+    public List<Vehiculo> listar(){
+        return vehiculoDAO.listar();
     }
 
     @Override

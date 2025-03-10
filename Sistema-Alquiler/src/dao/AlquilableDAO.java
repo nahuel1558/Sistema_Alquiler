@@ -2,9 +2,6 @@ package dao;
 
 import config.DataBaseConnection;
 import model.clases.Alquilable;
-import model.clases.CategoriaAlquilable;
-import model.clases.TipoAlquilable;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +14,7 @@ public class AlquilableDAO implements IDAO<Alquilable>{
 
     private static volatile AlquilableDAO instance;
 
-    private static final String INSERT_SQL = "INSERT INTO alquilables(id_categoria_alquilable, id_tipo_alquilable, descripcion, disponible) VALUE(?,?,?,?);";
+    private static final String INSERT_SQL = "INSERT INTO alquilables(id_tipo_alquilable, descripcion, disponible) VALUE(?,?,?);";
     private static final String UPDATE_SQL = "UPDATE alquilables SET disponible=?, descripcion=? WHERE id=?";
     private static final String SELECT_ALL_SQL = "SELECT * FROM alquilables";
     private static final String SELECT_BY_ID_SQL = "SELECT * FROM alquilables WHERE id = ?";
@@ -46,10 +43,9 @@ public class AlquilableDAO implements IDAO<Alquilable>{
         try(Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(INSERT_SQL)) {
 
-            statement.setLong(1, object.getCategoria().getIdCategoria());
-            statement.setLong(2, object.getTipoAlquilable().getIdTipoAlquilable());
-            statement.setString(3, object.getDescripcion());
-            statement.setBoolean(4, object.isDisponible());
+            statement.setLong(1, object.getTipoAlquilable().getIdTipoAlquilable());
+            statement.setString(2, object.getDescripcion());
+            statement.setBoolean(3, object.isDisponible());
 
             int lineaAfectada = statement.executeUpdate();
             return lineaAfectada > 0;
@@ -64,10 +60,9 @@ public class AlquilableDAO implements IDAO<Alquilable>{
         try(Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)){
 
-            statement.setLong(1, object.getCategoria().getIdCategoria());
-            statement.setLong(2, object.getTipoAlquilable().getIdTipoAlquilable());
-            statement.setString(3, object.getDescripcion());
-            statement.setBoolean(4, object.isDisponible());
+            statement.setBoolean(1, object.isDisponible());
+            statement.setString(2, object.getDescripcion());
+            statement.setLong(3, object.getIdAlquilable());
 
             int lineaAfectada = statement.executeUpdate();
             return lineaAfectada > 0;
@@ -164,7 +159,6 @@ public class AlquilableDAO implements IDAO<Alquilable>{
         Alquilable alquilable = new Alquilable();
 
         alquilable.setIdAlquilable(resultSet.getLong("id"));
-        alquilable.setCategoria(CategoriaAlquilableDAO.getInstance().obtenerPorId(resultSet.getLong("id_categoria_alquilable")));
         alquilable.setTipoAlquilable(TipoAlquilableDAO.getInstance().obtenerPorId(resultSet.getLong("id_tipo_alquilable")));
         alquilable.setDescripcion(resultSet.getString("descripcion"));
         alquilable.setDisponible(resultSet.getBoolean("disponible"));

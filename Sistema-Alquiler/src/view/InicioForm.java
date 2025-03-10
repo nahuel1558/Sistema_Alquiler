@@ -1,5 +1,7 @@
 package view;
 
+import view.alquilables.CrearAlquilablesForm;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,6 +24,12 @@ public class InicioForm extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 RealizarAlquileresForm realizarAlquileresForm = new RealizarAlquileresForm();
                 NavegacionForms.agregarForm(realizarAlquileresForm);
+            }
+        });
+        btnCrearAlquilables.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                NavegacionForms.agregarForm(new CrearAlquilablesForm());
             }
         });
     }

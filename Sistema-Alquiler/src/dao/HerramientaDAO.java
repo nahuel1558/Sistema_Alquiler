@@ -1,109 +1,106 @@
 package dao;
 
 import config.DataBaseConnection;
-import model.clases.Vehiculo;
-import model.clasesAlquileres.GestionReserva;
-import model.clasesAlquileres.IGestionAlquiler;
+import model.clases.Herramienta;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class VehiculoDAO implements IDAO<Vehiculo>{
-    private static volatile VehiculoDAO instance;
+public class HerramientaDAO implements IDAO<Herramienta>{
+    private static volatile HerramientaDAO instance;
 
-    private static final String INSERT_SQL = "INSERT INTO vehiculos(id_alquilable, marca, modelo) VALUE(?,?,?);";
-    private static final String UPDATE_SQL = "UPDATE vehiculos SET marca=?, modelo=? WHERE id=?";
-    private static final String SELECT_ALL_SQL = "SELECT * FROM vehiculos";
-    private static final String SELECT_BY_ID_SQL = "SELECT * FROM vehiculos WHERE id = ?";
-    private static final String DELETE_SQL = "DELETE FROM vehiculos WHERE id= ?";
-    private static final String SELECT_BY_ID_ALQUILABLE_SQL = "SELECT * FROM vehiculos WHERE id_alquilable=?";
+    private static final String INSERT_SQL = "INSERT INTO herramientas(id_alquilable, marca) VALUE(?,?);";
+    private static final String UPDATE_SQL = "UPDATE herramientas SET marca=? WHERE id=?";
+    private static final String SELECT_ALL_SQL = "SELECT * FROM herramientas";
+    private static final String SELECT_BY_ID_SQL = "SELECT * FROM herramientas WHERE id = ?";
+    private static final String DELETE_SQL = "DELETE FROM herramientas WHERE id= ?";
+    private static final String SELECT_BY_ID_ALQUILABLE_SQL = "SELECT * FROM herramientas WHERE id_alquilable=?";
 
-    private VehiculoDAO(){}
+    private HerramientaDAO(){}
 
-    public static VehiculoDAO getInstance(){
+    public static HerramientaDAO getInstance(){
         if(instance == null){
-            synchronized (VehiculoDAO.class){
+            synchronized (HerramientaDAO.class){
                 if(instance == null){
-                    instance = new VehiculoDAO();
+                    instance = new HerramientaDAO();
                 }
             }
         }
         return instance;
     }
 
-    private Connection getConnection()throws SQLException{
+    private Connection getConnection()throws SQLException {
         return DataBaseConnection.getConnection();
     }
 
+
     @Override
-    public boolean crear(Vehiculo object) {
+    public boolean crear(Herramienta object) {
         try(Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(INSERT_SQL)) {
 
             statement.setLong(1, object.getAlquilable().getIdAlquilable());
             statement.setString(2, object.getMarca());
-            statement.setString(3, object.getModelo());
 
             Integer lineaAfectada = statement.executeUpdate();
             return lineaAfectada > 0;
 
         } catch (SQLException e) {
             throw new RuntimeException("Error al crear", e);
-        }
-    }
+        }    }
 
     @Override
-    public boolean actualizar(Vehiculo object) {
+    public boolean actualizar(Herramienta object) {
         try(Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE_SQL)){
 
             statement.setString(1, object.getMarca());
-            statement.setString(2, object.getModelo());
 
             int lineaAfectada = statement.executeUpdate();
             return lineaAfectada > 0;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }
-    }
+        }    }
 
     @Override
-    public List<Vehiculo> listar() {
-        List<Vehiculo> vehiculoList = new ArrayList<>();
+    public List<Herramienta> listar() {
+        List<Herramienta> herramientas = new ArrayList<>();
         try(Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(SELECT_ALL_SQL);
             ResultSet resultSet = statement.executeQuery()){
 
             while(resultSet.next()){
-                Vehiculo vehiculo = mapVehiculo(resultSet);
-                vehiculoList.add(vehiculo);
+                Herramienta herramienta = mapHerramienta(resultSet);
+                herramientas.add(herramienta);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return vehiculoList;
+        return herramientas;
     }
 
     @Override
-    public Vehiculo obtenerPorId(Long id) {
-        Vehiculo vehiculo = null;
+    public Herramienta obtenerPorId(Long id) {
+        Herramienta herramienta = null;
 
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID_SQL)) {
             statement.setLong(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    vehiculo = mapVehiculo(resultSet);
+                    herramienta = mapHerramienta(resultSet);
                 }
             }
         } catch (SQLException e) {
             throw new RuntimeException("Error al obtener por ID", e);
         }
-
-        return vehiculo;
+        return herramienta;
     }
 
     @Override
@@ -119,10 +116,10 @@ public class VehiculoDAO implements IDAO<Vehiculo>{
         }
     }
 
-    public List<Vehiculo> traerListaVehiculoDisponible(List<Long> idAlquilable){
-        List<Vehiculo> vehiculoList = new ArrayList<>();
+    public List<Herramienta> traerListaHerramientaDisponible(List<Long> idAlquilable){
+        List<Herramienta> herramientas = new ArrayList<>();
         if (!idAlquilable.isEmpty()) {
-            String sql = "SELECT * FROM vehiculos WHERE id_alquilable IN (" +
+            String sql = "SELECT * FROM herramientas WHERE id_alquilable IN (" +
                     String.join(",", Collections.nCopies(idAlquilable.size(), "?")) + ")";
             try (Connection connection = getConnection();
                  PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -131,44 +128,43 @@ public class VehiculoDAO implements IDAO<Vehiculo>{
                 }
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
-                        Vehiculo vehiculo = mapVehiculo(resultSet);
-                        vehiculoList.add(vehiculo);
+                        Herramienta herramienta = mapHerramienta(resultSet);
+                        herramientas.add(herramienta);
                     }
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
-        return vehiculoList;
+        return herramientas;
     }
 
-    public Vehiculo obtenerByIdAlquilable(Long idAlquilable){
-        Vehiculo vehiculo = null;
+    public Herramienta obtenerByIdAlquilable(Long idAlquilable){
+        Herramienta herramienta = null;
 
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID_ALQUILABLE_SQL)) {
             statement.setLong(1, idAlquilable);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    vehiculo = mapVehiculo(resultSet);
+                    herramienta = mapHerramienta(resultSet);
                 }
             }
         } catch (SQLException e) {
             throw new RuntimeException("Error al obtener por ID", e);
         }
 
-        return vehiculo;
+        return herramienta;
     }
 
-    private Vehiculo mapVehiculo(ResultSet resultSet) throws SQLException {
-        Vehiculo vehiculo = new Vehiculo();
+    private Herramienta mapHerramienta(ResultSet resultSet) throws SQLException {
+        Herramienta herramienta = new Herramienta();
 
-        vehiculo.setId(resultSet.getLong("id"));
-        vehiculo.setAlquilable(AlquilableDAO.getInstance().obtenerPorId(resultSet.getLong("id_alquilable")));
-        vehiculo.getAlquilable().setCategoria(CategoriaAlquilableDAO.getInstance().obtenerPorId(resultSet.getLong("id_categoria_alquilable")));
-        vehiculo.setMarca(resultSet.getString("marca"));
-        vehiculo.setModelo(resultSet.getString("modelo"));
+        herramienta.setId(resultSet.getLong("id"));
+        herramienta.setAlquilable(AlquilableDAO.getInstance().obtenerPorId(resultSet.getLong("id_alquilable")));
+        herramienta.getAlquilable().setCategoria(CategoriaAlquilableDAO.getInstance().obtenerPorId(resultSet.getLong("id_categoria_alquilable")));
+        herramienta.setMarca(resultSet.getString("marca"));
 
-        return vehiculo;
+        return herramienta;
     }
 }
